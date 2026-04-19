@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LHABA - Liga de Handball de Buenos Aires</title>
+  {% block title %} <title>LHABA - Liga de Handball de Buenos Aires</title> {% endblock %}
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
@@ -66,12 +66,16 @@
     /* ── HERO ── */
     .hero {
       position: relative;
-      min-height: 90vh;
+      min-height: 75vh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       background-color: var(--bg-dark);
+    }
+
+    .hero-subtitle {
+      margin: 1rem auto 1.5rem !important;
     }
 
     .hero-bg-pattern {
@@ -167,7 +171,7 @@
     .cta-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.7rem;
       justify-content: center;
       margin-top: 1rem;
     }
@@ -178,14 +182,14 @@
       font-size: 1rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.85rem 2rem;
+      padding: 0.7rem 1.6rem;
       border-radius: 4px;
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
       transition: all 0.2s ease;
       text-decoration: none;
-      min-width: 200px;
+      min-width: 170px;
       justify-content: center;
     }
 
@@ -248,7 +252,7 @@
 
     /* ── SECTION CARDS ── */
     .section-cards {
-      padding: 3rem 0 5rem;
+      padding: 2rem 0 3rem !important;
       background-color: var(--bg-dark);
     }
 
@@ -265,7 +269,7 @@
     .section-lead {
       color: #666;
       font-size: 0.95rem;
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem !important;
     }
 
     .nav-card {
@@ -341,7 +345,7 @@
       background-color: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
-      padding: 2rem;
+      padding: 1.5rem;
       height: 100%;
     }
 
@@ -425,7 +429,7 @@
     footer {
       background-color: var(--bg-card);
       border-top: 1px solid var(--border-subtle);
-      padding: 2rem 0;
+      padding: 0.8rem 0;
     }
 
     .footer-brand {
@@ -442,10 +446,263 @@
       font-size: 0.85rem;
       margin-top: 0.25rem;
     }
+
+    /* HEADER */
+    .page-header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+    }
+
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 2.8rem;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .page-subtitle {
+      color: #777;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    /* TABLE CONTAINER */
+    .table-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    thead th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      padding-bottom: 0.75rem;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background-color: var(--bg-card-hover);
+    }
+
+    tbody td {
+      padding: 0.85rem 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .club-name {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* BOTÓN VOLVER */
+    .back-btn {
+      margin-top: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #ccc;
+      text-decoration: none;
+      border: 1px solid var(--border-subtle);
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      color: #fff;
+      border-color: var(--lhaba-red);
+      background-color: rgba(208,40,42,0.1);
+    }
+
+    
+    /* HEADER */
+    .page-header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+    }
+
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 2.8rem;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .page-subtitle {
+      color: #777;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    /* TABLE CONTAINER */
+    .table-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    thead th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      padding-bottom: 0.75rem;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background-color: var(--bg-card-hover);
+    }
+
+    tbody td {
+      padding: 0.85rem 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .club-name {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* BOTÓN VOLVER */
+    .back-btn {
+      margin-top: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #ccc;
+      text-decoration: none;
+      border: 1px solid var(--border-subtle);
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      color: #fff;
+      border-color: var(--lhaba-red);
+      background-color: rgba(208,40,42,0.1);
+    }
+
+    .page-header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+    }
+
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .card-detail {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 2rem;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .detail-label {
+      font-size: 0.8rem;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .detail-value {
+      font-weight: 600;
+      color: #fff;
+      text-align: right;
+    }
+
+    .back-btn {
+      margin-top: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #ccc;
+      text-decoration: none;
+      border: 1px solid var(--border-subtle);
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      color: #fff;
+      border-color: var(--lhaba-red);
+      background-color: rgba(208,40,42,0.1);
+    }
+    
+    .row.g-4 {
+      --bs-gutter-y: 1rem;
+    }
+  </style>    
   </style>
 </head>
 <body>
-
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-xl">
@@ -464,163 +721,96 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg-pattern"></div>
-    <div class="hero-accent"></div>
-    <div class="hero-accent-2"></div>
-    <div class="hero-content">
-      <div class="hero-badge">
-        <i class="bi bi-trophy-fill me-1"></i> Temporada 2026
-      </div>
-      <h1 class="hero-title">
-        Liga de Handball
-        <span class="highlight">Buenos Aires</span>
-      </h1>
-      <p class="hero-subtitle">
-        La competencia oficial de handball de Buenos Aires. Seguí los partidos, clubes y torneos de la LHABA.
-      </p>
-      <div class="cta-grid">
-        <a href="#" class="btn-cta btn-cta-primary">
-          <i class="bi bi-calendar3"></i> Ver Fixture
-        </a>
-        <a href="{% url 'clubes_list' %}" class="btn-cta btn-cta-outline">
-          <i class="bi bi-shield-fill"></i> Clubes
-        </a>
-        <a href="#" class="btn-cta btn-cta-outline">
-          <i class="bi bi-award-fill"></i> Torneos
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS BAR -->
-  <!-- <div class="stats-bar">
-    <div class="container-xl">
-      <div class="row g-0 justify-content-center">
-        <div class="col-6 col-md-3">
-          <div class="stat-item">
-            <div class="stat-number">2</div>
-            <div class="stat-label">Divisiones</div>
-          </div>
+  {% block princ_content %}
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg-pattern"></div>
+      <div class="hero-accent"></div>
+      <div class="hero-accent-2"></div>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="bi bi-trophy-fill me-1"></i> Temporada 2026
         </div>
-        <div class="col-6 col-md-3">
-          <div class="stat-item">
-            <div class="stat-number">6</div>
-            <div class="stat-label">Categorías por división</div>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="stat-item">
-            <div class="stat-number">2</div>
-            <div class="stat-label">Torneos activos</div>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="stat-item">
-            <div class="stat-number">12</div>
-            <div class="stat-label">Categorías en total</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- SECTION CARDS -->
-  <section class="section-cards">
-    <div class="container-xl">
-
-      <!-- 
-        Nav cards
-      <div class="text-center mb-5">
-        <h2 class="section-title">Explorá la liga</h2>
-        <p class="section-lead">Todo lo que necesitás saber sobre la competencia</p>
-      </div>
-      <div class="row g-4 mb-5">
-
-        <div class="col-12 col-md-4">
-          <a href="" class="nav-card">
-            <div class="card-icon"><i class="bi bi-calendar3-week"></i></div>
-            <div class="card-title">Fixture</div>
-            <p class="card-desc">Consultá los partidos programados y resultados de cada categoría en ambas divisiones.</p>
-            <div class="card-arrow">Ver fixture <i class="bi bi-arrow-right"></i></div>
+        <h1 class="hero-title">
+          Liga de Handball
+          <span class="highlight">Buenos Aires</span>
+        </h1>
+        <p class="hero-subtitle">
+          La competencia oficial de handball de Buenos Aires. Seguí los partidos, clubes y torneos de la LHABA.
+        </p>
+        <div class="cta-grid">
+          <a href="#" class="btn-cta btn-cta-primary">
+            <i class="bi bi-calendar3"></i> Ver Fixture
+          </a>
+          <a href="{% url 'clubes_list' %}" class="btn-cta btn-cta-outline">
+            <i class="bi bi-shield-fill"></i> Clubes
+          </a>
+          <a href="#" class="btn-cta btn-cta-outline">
+            <i class="bi bi-award-fill"></i> Torneos
           </a>
         </div>
-
-        <div class="col-12 col-md-4">
-          <a href="" class="nav-card">
-            <div class="card-icon"><i class="bi bi-shield-fill"></i></div>
-            <div class="card-title">Clubes</div>
-            <p class="card-desc">Conocé todos los clubes afiliados a la LHABA y sus equipos en cada división y categoría.</p>
-            <div class="card-arrow">Ver clubes <i class="bi bi-arrow-right"></i></div>
-          </a>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <a href="" class="nav-card">
-            <div class="card-icon"><i class="bi bi-award-fill"></i></div>
-            <div class="card-title">Torneos</div>
-            <p class="card-desc">Información sobre el torneo femenino y el torneo masculino: formato, reglamento y posiciones.</p>
-            <div class="card-arrow">Ver torneos <i class="bi bi-arrow-right"></i></div>
-          </a>
-        </div>
-
-      </div> -->
-
-      <!-- Divisiones -->
-      <div class="text-center mb-5">
-        <h2 class="section-title">Las divisiones</h2>
-        <p class="section-lead">Cada división compite en 6 categorías con su propio torneo</p>
       </div>
-      <div class="row g-4">
+    </section>
 
-        <!-- División Femenino -->
-        <div class="col-12 col-md-6">
-          <div class="division-card division-fem">
-            <div class="division-header">
-              <div class="division-icon fem"><i class="bi bi-gender-female"></i></div>
-              <div>
-                <div class="division-name">División Femenino</div>
-                <div class="division-torneo"><i class="bi bi-trophy-fill me-1"></i>Torneo Femenino LHABA</div>
+    <!-- SECTION CARDS -->
+    <section class="section-cards">
+      <div class="container-xl">
+
+        <!-- Divisiones -->
+        <div class="text-center mb-5">
+          <h2 class="section-title">Las divisiones</h2>
+          <p class="section-lead">Cada división compite en 6 categorías con su propio torneo</p>
+        </div>
+        <div class="row g-4">
+
+          <!-- División Femenino -->
+          <div class="col-12 col-md-6">
+            <div class="division-card division-fem">
+              <div class="division-header">
+                <div class="division-icon fem"><i class="bi bi-gender-female"></i></div>
+                <div>
+                  <div class="division-name">División Femenino</div>
+                  <div class="division-torneo"><i class="bi bi-trophy-fill me-1"></i>Torneo Femenino LHABA</div>
+                </div>
+              </div>
+              <div class="categoria-list">
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Infantiles</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Menores</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Cadetas</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juveniles</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juniors</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Mayores</div>
               </div>
             </div>
-            <div class="categoria-list">
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Infantiles</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Menores</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Cadetas</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juveniles</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juniors</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Mayores</div>
-            </div>
           </div>
-        </div>
 
-        <!-- División Masculino -->
-        <div class="col-12 col-md-6">
-          <div class="division-card division-masc">
-            <div class="division-header">
-              <div class="division-icon masc"><i class="bi bi-gender-male"></i></div>
-              <div>
-                <div class="division-name">División Masculino</div>
-                <div class="division-torneo"><i class="bi bi-trophy-fill me-1"></i>Torneo Masculino LHABA</div>
+          <!-- División Masculino -->
+          <div class="col-12 col-md-6">
+            <div class="division-card division-masc">
+              <div class="division-header">
+                <div class="division-icon masc"><i class="bi bi-gender-male"></i></div>
+                <div>
+                  <div class="division-name">División Masculino</div>
+                  <div class="division-torneo"><i class="bi bi-trophy-fill me-1"></i>Torneo Masculino LHABA</div>
+                </div>
+              </div>
+              <div class="categoria-list">
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Infantiles</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Menores</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Cadetes</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juveniles</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juniors</div>
+                <div class="categoria-item"><i class="bi bi-circle-fill"></i> Mayores</div>
               </div>
             </div>
-            <div class="categoria-list">
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Infantiles</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Menores</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Cadetes</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juveniles</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Juniors</div>
-              <div class="categoria-item"><i class="bi bi-circle-fill"></i> Mayores</div>
-            </div>
           </div>
+
         </div>
-
       </div>
-    </div>
-  </section>
+    </section>
+  {% endblock %}
 
-  <!-- FOOTER -->
+    <!-- FOOTER -->
   <footer>
     <div class="container-xl">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">

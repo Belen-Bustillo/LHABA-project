@@ -3,7 +3,7 @@ from clubes.models import ClubesRegistrados
 
 # Create your views here.
 def home(request):
-    return render(request, "clubes/index.html")
+    return render(request, "index.html")
 
 def clubes_list(request):
     clubes_query = ClubesRegistrados.objects.all()
