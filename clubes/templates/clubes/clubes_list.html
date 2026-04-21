@@ -11,14 +11,29 @@
         <i class="bi bi-plus-circle"></i> Registrar nuevo club
       </a>
     </div>
-
-    
-
     <!-- TABLA -->
     <div class="table-card">
     <div class="text-center mb-4">
       <div class="page-subtitle">Listado de clubes registrados en la liga</div>
-    </div>      
+    </div>
+    <!-- BÚSQUEDA -->
+    <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 20px; max-width: 400px;">
+      <form method="GET" style="display: flex; gap: 10px; width: 100%;">
+        <input 
+          type="text" 
+          name="search" 
+          placeholder="Buscar por nombre de club..." 
+          value="{{ request.GET.search }}"
+          class="search-input"
+          style="flex: 1; padding: 10px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;"
+        >
+        {% if request.GET.search %}
+        <a href="{% url 'clubes_list' %}" class="btn btn-outline-secondary" style="white-space: nowrap;">
+          <i class="bi bi-x-circle"></i> Limpiar
+        </a>
+        {% endif %}
+      </form>
+    </div>    
       <table>
         <thead>
           <tr>

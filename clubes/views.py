@@ -7,7 +7,12 @@ def home(request):
     return render(request, "index.html")
 
 def clubes_list(request):
+    nombre = request.GET.get("search")
     clubes_query = ClubesRegistrados.objects.all()
+    if nombre is not None:
+        clubes_query = ClubesRegistrados.objects.filter(
+            nombre_completo__icontains=nombre
+        )
     contexto = {
         "clubes_list" : list(clubes_query)
     }
