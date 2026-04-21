@@ -9,33 +9,35 @@
       <div class="page-title">{{ club.nombre_completo }}</div>
     </div>
 
+    <!--CARD INFO DEL CLUB-->
     <div class="card-detail">
-
       <div class="detail-row">
         <div class="detail-label">Siglas</div>
         <div class="detail-value">{{ club.nombre_siglas }}</div>
       </div>
-
       <div class="detail-row">
         <div class="detail-label">Nombre corto</div>
         <div class="detail-value">{{ club.nombre_corto }}</div>
       </div>
-
       <div class="detail-row">
         <div class="detail-label">Localidad</div>
         <div class="detail-value">{{ club.localidad }}</div>
       </div>
-
       <div class="detail-row">
         <div class="detail-label">Email</div>
         <div class="detail-value">{{ club.email }}</div>
       </div>
-
       <div class="detail-row">
         <div class="detail-label">Fecha ingreso a la Liga</div>
         <div class="detail-value">{{ club.fecha_ingreso }}</div>
       </div>
+    </div>
 
+    <!-- BOTÓN VER EQUIPOS -->
+    <div class="text-center mt-4">
+      <a href="{% url 'equipos_detalle' club.id %}" class="btn-cta btn-cta-primary">
+        <i class="bi bi-people-fill"></i> Ver equipos
+      </a>
     </div>
 
     <div class="text-center">

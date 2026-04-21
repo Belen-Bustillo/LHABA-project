@@ -1,0 +1,88 @@
+{% extends 'index.html' %}
+{% block title %} <title>{{ club.nombre_corto }} - Equipos</title> {% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">{{ club.nombre_completo }}</div>
+    <div class="page-subtitle">Planteles por categoría</div>
+  </div>
+
+  <div class="row g-4">
+
+    {% for equipo in equipos %}
+    <div class="col-md-6 col-lg-4">
+
+      <div class="division-card division-lhaba">
+
+        <!-- CATEGORIA -->
+        <div class="division-header">
+          <div class="division-icon lhaba">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div>
+            <div class="division-name">{{ equipo.categoria }}</div>
+            <div class="division-torneo">Equipo oficial</div>
+          </div>
+        </div>
+
+        <!-- DT -->
+        <div class="detail-row">
+          <div class="detail-label">Director Técnico</div>
+          <div class="detail-value">
+            {% if equipo.dt %}
+              {{ equipo.dt.nombre }} {{ equipo.dt.apellido }}
+            {% else %}
+              Sin asignar
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- ASISTENTES -->
+        <div class="mt-3">
+          <div class="detail-label mb-2">Asistentes</div>
+          <div class="categoria-list">
+            {% for a in equipo.asistente %}
+              <div class="categoria-item">
+                <i class="bi bi-circle-fill"></i>
+                {{ a.nombre }} {{ a.apellido }}
+              </div>
+            {% empty %}
+              <div class="categoria-item">Sin asistentes</div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- JUGADORAS -->
+        <div class="mt-3">
+          <div class="detail-label mb-2">Jugadoras</div>
+          <div class="categoria-list">
+            {% for j in equipo.jugadoras %}
+              <div class="categoria-item">
+                <i class="bi bi-circle-fill"></i>
+                {{ j.nombre }} {{ j.apellido }}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <!-- VOLVER -->
+    <div class="text-center">
+      <a href="{% url 'club_detalle' club.id %}" class="back-btn">
+        <i class="bi bi-arrow-left"></i> Volver a club
+      </a>
+    </div>
+
+</div>
+
+{% endblock %}
