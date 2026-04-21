@@ -6,11 +6,19 @@
     <!-- HEADER -->
     <div class="page-header">
       <div class="page-title">Clubes</div>
-      <div class="page-subtitle">Listado de clubes registrados en la liga</div>
+        <!-- BOTÓN REGISTRAR NUEVO CLUB -->
+        <a href="{% url 'registrar_club' %}" class="btn-cta btn-cta-danger">
+        <i class="bi bi-plus-circle"></i> Registrar nuevo club
+      </a>
     </div>
+
+    
 
     <!-- TABLA -->
     <div class="table-card">
+    <div class="text-center mb-4">
+      <div class="page-subtitle">Listado de clubes registrados en la liga</div>
+    </div>      
       <table>
         <thead>
           <tr>

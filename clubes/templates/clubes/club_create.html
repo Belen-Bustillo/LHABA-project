@@ -1,0 +1,181 @@
+{% extends 'index.html' %}
+{% block title %} <title>Registrar Club - LHABAfem</title> {% endblock %}
+
+{% block princ_content %}
+  <div class="container-xl">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="page-title">Registrar Nuevo Club</div>
+      <div class="page-subtitle">Completa los datos del club</div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="form-container" style="max-width: 600px; margin: 0 auto;">
+      <form method="POST" class="form-club">
+        {% csrf_token %}
+
+        <!-- NOMBRE SIGLAS -->
+        <div class="form-group mb-3">
+          <label for="nombre_siglas" class="form-label">Siglas <span style="color: #ff6b6b;">*</span></label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="nombre_siglas" 
+            name="nombre_siglas" 
+            placeholder="Ej: BOC"
+            required
+            maxlength="10"
+          >
+          <small class="form-text text-muted">Máximo 10 caracteres</small>
+        </div>
+
+        <!-- NOMBRE COMPLETO -->
+        <div class="form-group mb-3">
+          <label for="nombre_completo" class="form-label">Nombre Completo <span style="color: #ff6b6b;">*</span></label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="nombre_completo" 
+            name="nombre_completo" 
+            placeholder="Ej: Boca Juniors"
+            required
+            maxlength="100"
+          >
+        </div>
+
+        <!-- NOMBRE CORTO -->
+        <div class="form-group mb-3">
+          <label for="nombre_corto" class="form-label">Nombre Corto <span style="color: #ff6b6b;">*</span></label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="nombre_corto" 
+            name="nombre_corto" 
+            placeholder="Ej: Boca"
+            required
+            maxlength="50"
+          >
+        </div>
+
+        <!-- LOCALIDAD -->
+        <div class="form-group mb-3">
+          <label for="localidad" class="form-label">Localidad <span style="color: #ff6b6b;">*</span></label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="localidad" 
+            name="localidad" 
+            placeholder="Ej: Buenos Aires"
+            required
+            maxlength="100"
+          >
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group mb-4">
+          <label for="email" class="form-label">Email <span style="color: #ff6b6b;">*</span></label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            placeholder="Ej: contacto@club.com"
+            required
+          >
+          <small class="form-text text-muted">Correo electrónico válido</small>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="form-actions" style="display: flex; gap: 10px; justify-content: center;">
+          <button type="submit" class="btn btn-danger">
+            <i class="bi bi-check-circle"></i> Registrar Club
+          </button>
+          <a href="{% url 'clubes_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </a>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- NOTA -->
+    <div style="text-align: center; margin-top: 40px; color: #666;">
+      <p><small><span style="color: #ff6b6b;">*</span> Campos requeridos</small></p>
+    </div>
+
+  </div>
+
+  <style>
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .form-control {
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #ff6b6b;
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+    }
+
+    .form-text {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .form-actions button,
+    .form-actions a {
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-danger {
+      background-color: #ff6b6b;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #ff5252;
+    }
+
+    .btn-outline-secondary {
+      background-color: transparent;
+      color: #666;
+      border: 1px solid #ddd;
+    }
+
+    .btn-outline-secondary:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+
+{% endblock %}

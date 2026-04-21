@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from clubes.models import *
+from clubes.forms import ClubesRegistradosForm
 
 # Create your views here.
 def home(request):
@@ -54,3 +55,14 @@ def ver_equipos(request,id):
     }
 
     return render(request, "clubes/equipo_detail.html", contexto)
+
+def registrar_club(request):
+    if request.method == "POST":
+        form = ClubesRegistradosForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("clubes_list")
+    else:
+        form = ClubesRegistradosForm()
+    contexto = {"form": form}
+    return render(request, "clubes/club_create.html", contexto)
