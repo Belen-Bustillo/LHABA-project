@@ -2,7 +2,7 @@ from django.db import models
 
 class ClubesRegistrados(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre_siglas = models.CharField()
+    nombre_siglas = models.CharField(unique=True)
     nombre_completo = models.CharField()
     nombre_corto = models.CharField(max_length=30,null=True)
     localidad = models.CharField()
@@ -17,7 +17,7 @@ class Categoria(models.Model):
     nombre_categoria = models.CharField(max_length=30)
 
     def __str__(self):
-        return f"Categoria: {self.nombre_categoria}"
+        return f"{self.nombre_categoria}"
 
 class Persona(models.Model):
     id_persona = models.AutoField(primary_key=True)
@@ -37,9 +37,9 @@ class Rol(models.Model):
     
     def __str__(self):
         if self.descripcion:
-            mensaje = f"Rol definido: {self.rol} - {self.descripcion}"
+            mensaje = f"{self.rol} - {self.descripcion}"
         else:
-            mensaje = f"Rol definido: {self.rol}"
+            mensaje = f"{self.rol}"
         return mensaje
 
 class PersonaRol(models.Model):
