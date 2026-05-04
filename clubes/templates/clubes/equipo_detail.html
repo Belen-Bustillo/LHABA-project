@@ -10,7 +10,7 @@
     <div class="page-title">{{ club.nombre_completo }}</div>
     <div class="page-subtitle">Planteles por categoría</div>
     <!-- boton registrar persona -->
-    <a href="{% url 'registrar_persona' club.id %}" class="btn-cta btn-cta-danger">
+    <a href="{% url 'registrar_persona' club.nombre_siglas %}" class="btn-cta btn-cta-danger">
       <i class="bi bi-plus-circle"></i> Registrar nuevo miembro del club
     </a>
   </div>
@@ -91,7 +91,7 @@
 
   <!-- VOLVER -->
     <div class="text-center">
-      <a href="{% url 'club_detalle' club.id %}" class="back-btn">
+      <a href="{% url 'club_detalle' club.nombre_siglas %}" class="back-btn">
         <i class="bi bi-arrow-left"></i> Volver a club
       </a>
     </div>

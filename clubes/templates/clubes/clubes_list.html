@@ -50,7 +50,7 @@
             <td class="club-name">{{ club.nombre_completo }}</td>
             <td>{{ club.localidad }}</td>
             <td>
-              <a href="{% url 'club_detalle' club.id %}" class="btn btn-sm btn-outline-light">
+              <a href="{% url 'club_detalle' club.nombre_siglas %}" class="btn btn-sm btn-outline-light">
                 Ver detalle
               </a>
             </td>            

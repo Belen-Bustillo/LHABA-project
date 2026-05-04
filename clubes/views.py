@@ -18,15 +18,15 @@ def clubes_list(request):
     }
     return render(request, "clubes/clubes_list.html", contexto)
 
-def club_detalle(request,id):
-    club = get_object_or_404(ClubesRegistrados, id=id)
+def club_detalle(request,nombre_siglas):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     contexto = {
         "club" : club
     }
     return render(request, "clubes/club_detail.html", contexto)
 
-def ver_equipos(request,id):
-    club = get_object_or_404(ClubesRegistrados, id=id)
+def ver_equipos(request,nombre_siglas):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categorias = Categoria.objects.all()
     personas = PersonaRol.objects.filter(club=club)
  
@@ -73,8 +73,8 @@ def registrar_club(request):
     contexto = {"form": form}
     return render(request, "clubes/club_create.html", contexto)
 
-def registrar_persona(request, id):
-    club = get_object_or_404(ClubesRegistrados, id=id)
+def registrar_persona(request,nombre_siglas):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
 
     if request.method == "POST":
         persona_form = PersonaForm(request.POST)
@@ -90,7 +90,7 @@ def registrar_persona(request, id):
             persona_rol.club = club
             persona_rol.save()
             
-            return redirect('club_detalle', id=club.id)
+            return redirect('club_detalle', nombre_siglas=nombre_siglas)
     else:
         persona_form = PersonaForm()
         rol_form = PersonaRolForm()
