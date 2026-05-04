@@ -6,6 +6,8 @@ from clubes.forms import *
 def home(request):
     return render(request, "index.html")
 
+
+#READ
 def clubes_list(request):
     nombre = request.GET.get("search")
     clubes_query = ClubesRegistrados.objects.all()
@@ -60,8 +62,8 @@ def ver_equipos(request,nombre_siglas):
     }
  
     return render(request, "clubes/equipo_detail.html", contexto)
- 
 
+#CREATE
 def registrar_club(request):
     if request.method == "POST":
         form = ClubesRegistradosForm(request.POST)
@@ -101,3 +103,61 @@ def registrar_persona(request,nombre_siglas):
         "rol_form": rol_form
     }
     return render(request, "clubes/registrar_persona.html", contexto)
+
+#UPDATE
+def actualizar_club(request, nombre_siglas):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    if request.method == "POST":
+        form = ClubesRegistradosForm(request.POST, instance=club)
+        if form.is_valid():
+            form.save()
+            return redirect("clubes_list")
+    else:
+        form = ClubesRegistradosForm(instance=club)      
+    
+    contexto = {
+        "form" : form,
+        "club" : club,
+        "update" : True
+    }
+    return render(request, "clubes/club_update.html", contexto)
+
+
+def actualizar_persona(request, nombre_siglas, persona_id):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    
+    persona = get_object_or_404(Persona, id_persona=persona_id)
+    persona_rol = get_object_or_404(PersonaRol, persona=persona, club=club)
+
+    if request.method == "POST":
+        persona_form = PersonaForm(request.POST, instance=persona)
+        rol_form = PersonaRolForm(request.POST, instance=persona_rol)
+
+        if persona_form.is_valid() and rol_form.is_valid():
+            persona_form.save()
+            rol_form.save()
+            return redirect('equipos_detalle', nombre_siglas=nombre_siglas)
+
+    else:
+        persona_form = PersonaForm(instance=persona)
+        rol_form = PersonaRolForm(instance=persona_rol)
+
+    contexto = {
+        "club": club,
+        "persona_form": persona_form,
+        "rol_form": rol_form
+    }
+
+    return render(request, "clubes/actualizar_persona.html", contexto)
+
+#DELETE
+def consulta_eliminar_club(request, nombre_siglas):
+    return render(request, "clubes/club_delete.html",{
+        "nombre_siglas": nombre_siglas
+    })
+
+def eliminar_club(request, nombre_siglas):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    if request.method == "POST":
+        club.delete()
+        return redirect("clubes_list")

@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+
+{% block title %} 
+<title>Eliminar Club - LHABAfem</title> 
+{% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Eliminar Club - <strong>{{ nombre_siglas }}</strong> </div>
+    <div class="page-subtitle">
+      Estás a punto de eliminar el club <strong>{{ nombre_siglas }}</strong>
+    </div>
+  </div>
+
+  <!-- CARD -->
+  <div class="card-detail text-center">
+
+    <p style="color: #ccc; margin-bottom: 1.5rem;">
+      Esta acción no se puede deshacer.  
+      Se eliminarán todos los datos asociados al club.
+    </p>
+
+    <!-- BOTONES -->
+    <form method="POST" action="{% url 'club_eliminar' nombre_siglas %}">
+      {% csrf_token %}
+      
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        
+        <button type="submit" class="btn-cta btn-cta-primary">
+          <i class="bi bi-trash-fill"></i> Confirmar eliminación
+        </button>
+
+        <a href="{% url 'club_detalle' nombre_siglas %}" class="btn-cta btn-cta-outline">
+          <i class="bi bi-x-circle"></i> Cancelar
+        </a>
+
+      </div>
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

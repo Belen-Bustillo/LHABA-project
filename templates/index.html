@@ -721,6 +721,25 @@
     position: relative;
     z-index: 1;
   }
+  .btn-login {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.45rem 1.2rem;
+    border-radius: 4px;
+    background-color: var(--lhaba-red);
+    color: #fff;
+    border: 2px solid var(--lhaba-red);
+    text-decoration: none;
+  }
+
+  .btn-login:hover {
+    background-color: var(--lhaba-red-dark);
+    border-color: var(--lhaba-red-dark);
+    color: #fff;
+  }  
   
   </style>    
 </head>
@@ -729,19 +748,34 @@
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-xl">
       <a class="navbar-brand" href="{% url 'home' %}">LHABA<span>fem</span></a>
+
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto gap-2">
-          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Fixture</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'clubes_list' %}">Clubes</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Torneos</a></li>
+        <ul class="navbar-nav ms-auto align-items-center gap-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Fixture</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'clubes_list' %}">Clubes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Torneos</a>
+          </li>
+
+          <!-- BOTÓN LOGIN -->
+          <li class="nav-item">
+            <a href="#" class="btn-login">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
+
   <main>
   {% block princ_content %}
     <!-- HERO -->

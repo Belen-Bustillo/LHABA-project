@@ -1,0 +1,200 @@
+{% extends 'index.html' %}
+{% block title %} <title>Registrar Miembro - {{ club.nombre_completo }}</title> {% endblock %}
+
+{% block princ_content %}
+  <div class="container-xl">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="page-title">Registrar Nuevo Miembro</div>
+      <div class="page-subtitle">{{ club.nombre_completo }}</div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="form-container" style="max-width: 600px; margin: 0 auto;">
+      <form method="POST" class="form-persona">
+        {% csrf_token %}
+
+        <!-- ERRORES GENERALES -->
+        {% if persona_form.non_field_errors or rol_form.non_field_errors %}
+        <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+          {% for error in persona_form.non_field_errors %}
+          <p style="margin: 5px 0;">{{ error }}</p>
+          {% endfor %}
+          {% for error in rol_form.non_field_errors %}
+          <p style="margin: 5px 0;">{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- NOMBRE -->
+        <div class="form-group mb-3">
+          <label for="{{ persona_form.nombre.id_for_label }}" class="form-label">
+            {{ persona_form.nombre.label }} <span style="color: #ff6b6b;">*</span>
+          </label>
+          {{ persona_form.nombre }}
+          {% if persona_form.nombre.errors %}
+          <small style="color: #ff6b6b;">{{ persona_form.nombre.errors.0 }}</small>
+          {% endif %}
+        </div>
+
+        <!-- APELLIDO -->
+        <div class="form-group mb-3">
+          <label for="{{ persona_form.apellido.id_for_label }}" class="form-label">
+            {{ persona_form.apellido.label }} <span style="color: #ff6b6b;">*</span>
+          </label>
+          {{ persona_form.apellido }}
+          {% if persona_form.apellido.errors %}
+          <small style="color: #ff6b6b;">{{ persona_form.apellido.errors.0 }}</small>
+          {% endif %}
+        </div>
+
+        <!-- DNI -->
+        <div class="form-group mb-3">
+          <label for="{{ persona_form.dni.id_for_label }}" class="form-label">
+            {{ persona_form.dni.label }} <span style="color: #ff6b6b;">*</span>
+          </label>
+          {{ persona_form.dni }}
+          {% if persona_form.dni.errors %}
+          <small style="color: #ff6b6b;">{{ persona_form.dni.errors.0 }}</small>
+          {% endif %}
+        </div>
+
+        <!-- FECHA DE NACIMIENTO -->
+        <div class="form-group mb-3">
+        <label for="{{ persona_form.fecha_nacimiento.id_for_label }}" class="form-label">
+            {{ persona_form.fecha_nacimiento.label }} <span style="color: #ff6b6b;">*</span>
+        </label>
+        {{ persona_form.fecha_nacimiento }}
+        {% if persona_form.fecha_nacimiento.errors %}
+        <small style="color: #ff6b6b;">{{ persona_form.fecha_nacimiento.errors.0 }}</small>
+        {% endif %}
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group mb-3">
+          <label for="{{ persona_form.email.id_for_label }}" class="form-label">
+            {{ persona_form.email.label }} <span style="color: #ff6b6b;">*</span>
+          </label>
+          {{ persona_form.email }}
+          {% if persona_form.email.errors %}
+          <small style="color: #ff6b6b;">{{ persona_form.email.errors.0 }}</small>
+          {% endif %}
+        </div>
+
+        <!-- CATEGORÍA -->
+        <div class="form-group mb-3">
+          <label for="{{ rol_form.categoria.id_for_label }}" class="form-label">
+            {{ rol_form.categoria.label }} <span style="color: #ff6b6b;">*</span>
+          </label>
+          {{ rol_form.categoria }}
+          {% if rol_form.categoria.errors %}
+          <small style="color: #ff6b6b;">{{ rol_form.categoria.errors.0 }}</small>
+          {% endif %}
+        </div>
+
+        <!-- ROL -->
+        <div class="form-group mb-4">
+          <label for="{{ rol_form.rol.id_for_label }}" class="form-label">
+            {{ rol_form.rol.label }} <span style="color: #ff6b6b;">*</span>
+          </label>
+          {{ rol_form.rol }}
+          {% if rol_form.rol.errors %}
+          <small style="color: #ff6b6b;">{{ rol_form.rol.errors.0 }}</small>
+          {% endif %}
+        </div>
+
+        <!-- BOTONES -->
+        <div class="form-actions" style="display: flex; gap: 10px; justify-content: center;">
+          <button type="submit" class="btn btn-danger">
+            <i class="bi bi-check-circle"></i> Registrar Miembro
+          </button>
+          <a href="{% url 'equipos_detalle' club.nombre_siglas %}" class="btn btn-outline-secondary">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </a>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- NOTA -->
+    <div style="text-align: center; margin-top: 40px; color: #666;">
+      <p><small><span style="color: #ff6b6b;">*</span> Campos requeridos</small></p>
+    </div>
+
+  </div>
+
+  <style>
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .form-control {
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #ff6b6b;
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+    }
+
+    .form-text {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .form-actions button,
+    .form-actions a {
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-danger {
+      background-color: #ff6b6b;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #ff5252;
+    }
+
+    .btn-outline-secondary {
+      background-color: transparent;
+      color: #666;
+      border: 1px solid #ddd;
+    }
+
+    .btn-outline-secondary:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+
+{% endblock %}
