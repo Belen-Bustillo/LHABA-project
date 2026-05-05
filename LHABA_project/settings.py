@@ -119,3 +119,15 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000']
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = BASE_DIR / "media"
+
+AUTH_USER_MODEL = "accounts.Profile"
+
+LOGIN_URL = "login"
+
+LOGIN_REDIRECT_URL = "profile_detail"
+
+LOGOUT_REDIRECT_URL = "home"

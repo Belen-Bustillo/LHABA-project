@@ -739,8 +739,8 @@
     background-color: var(--lhaba-red-dark);
     border-color: var(--lhaba-red-dark);
     color: #fff;
-  }  
-  
+  }
+
   </style>    
 </head>
 <body>
@@ -765,12 +765,33 @@
             <a class="nav-link" href="#">Torneos</a>
           </li>
 
-          <!-- BOTÓN LOGIN -->
-          <li class="nav-item">
-            <a href="#" class="btn-login">
-              <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
-            </a>
-          </li>
+          <!-- BOTÓN LOGIN y REGISTRO-->
+          {% if user.is_authenticated %}
+            <!-- PERFIL -->
+            <li class="nav-item">
+              <a href="{% url 'profile_detail' %}" class="btn-cta btn-cta-outline">
+                <i class="bi bi-person-fill"></i> Mi Perfil
+              </a>
+            </li>
+
+            <!-- LOGOUT -->
+            <li class="nav-item">
+              <a href="#" class="btn-cta btn-cta-primary">
+                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+              </a>
+            </li>          
+          {% else %}
+            <li class="nav-item">
+              <a href="#" class="btn-login">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'register' %}" class="btn-login">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Registrarse
+              </a>
+            </li>
+          {% endif %}        
         </ul>
       </div>
     </div>

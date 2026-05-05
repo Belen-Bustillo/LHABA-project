@@ -1,0 +1,179 @@
+{% extends 'index.html' %}
+{% block title %} <title>Mi Perfil - LHABAfem</title> {% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl profile-container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Perfil de coordinador deportivo</div>
+  </div>
+
+  <!-- GRID -->
+  <div class="row g-4">
+
+    <!-- PERFIL -->
+    <div class="col-md-6">
+      <div class="card-detail">
+
+        <div class="section-title-small">Datos personales</div>
+
+        <div class="profile-avatar">
+          <img src="{{ user.avatar.url }}" alt="Avatar">
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Usuario</div>
+          <div class="detail-value">{{ user.username }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Nombre</div>
+          <div class="detail-value">{{ user.first_name }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Apellido</div>
+          <div class="detail-value">{{ user.last_name }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Email</div>
+          <div class="detail-value">{{ user.email }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">DNI</div>
+          <div class="detail-value">{{ user.dni }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Fecha de nacimiento</div>
+          <div class="detail-value">
+            {% if user.fecha_de_nacimiento %}
+              {{ user.fecha_de_nacimiento }}
+            {% else %}
+              <span class="text-muted">No cargado</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- BOTON EDITAR -->
+        <div class="profile-actions">
+          <a href="#" class="btn-cta btn-cta-primary">
+            <i class="bi bi-pencil-fill"></i> Editar perfil
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CLUB -->
+    <div class="col-md-6">
+      <div class="card-detail">
+
+        <div class="section-title-small">Mi Club</div>
+
+        {% if user.club %}
+
+          <div class="detail-row">
+            <div class="detail-label">Nombre</div>
+            <div class="detail-value">{{ user.club.nombre_completo }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Siglas</div>
+            <div class="detail-value">{{ user.club.nombre_siglas }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Localidad</div>
+            <div class="detail-value">{{ user.club.localidad }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Email</div>
+            <div class="detail-value">{{ user.club.email }}</div>
+          </div>
+
+          <div class="profile-actions">
+            <a href="{% url 'club_detalle' user.club.nombre_siglas %}" class="btn-cta btn-cta-outline">
+              <i class="bi bi-eye-fill"></i> Ver club
+            </a>
+          </div>
+
+        {% else %}
+
+          <div class="empty-club">
+            <p>No tenés un club creado.</p>
+            <p class="text-muted">Creá tu club para empezar a gestionar equipos.</p>
+          </div>
+
+          <div class="profile-actions">
+            <a href="{% url 'registrar_club' %}" class="btn-cta btn-cta-primary">
+              <i class="bi bi-plus-circle"></i> Crear club
+            </a>
+          </div>
+
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+
+.profile-container {
+  padding-bottom: 80px;
+}
+
+/* TITULO SECCION */
+.section-title-small {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+/* AVATAR */
+.profile-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--lhaba-red);
+}
+
+/* BOTONES */
+.profile-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* MENSAJE SIN CLUB */
+.empty-club {
+  text-align: center;
+  padding: 20px;
+  color: #ccc;
+}
+
+.text-muted {
+  color: #777;
+}
+
+</style>
+
+{% endblock %}
