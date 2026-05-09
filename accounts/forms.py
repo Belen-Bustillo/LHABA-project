@@ -10,10 +10,11 @@ class ProfileCreateForm(UserCreationForm):
 class ProfileEditForm(UserChangeForm):
     class Meta:
         model = Profile
-        fields = ("avatar","fecha_de_nacimiento","dni","first_name","last_name", "email","password")
+        fields = ("avatar","fecha_de_nacimiento","dni","first_name","last_name", "email","password","username")
         widgets = {
             "avatar": forms.ClearableFileInput(attrs={"class": "form-control"}),
             "fecha_de_nacimiento": forms.DateInput(attrs={"class": "form-control","type": "date"}),
+            "username": forms.TextInput(attrs={"class": "form-control"}),
             "first_name": forms.TextInput(attrs={"class": "form-control"}),
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "dni": forms.TextInput(attrs={"class": "form-control"}),

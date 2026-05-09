@@ -8,9 +8,11 @@ from django.views.generic import (
     TemplateView
 )
 from django.contrib.auth import login
+from django.contrib.auth.views import LoginView,LogoutView,PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import *
 from accounts.forms import *
+
 
 # def register(request):
 #     if request.method == "POST":
@@ -22,7 +24,12 @@ from accounts.forms import *
 #     else:
 #         form = PerfilCreateForm()
 #     return render(request, "accounts/register.html", {"form": form})
+class Login(LoginView):
+    template_name = "accounts/login.html"
+    redirect_authenticated_user = True
 
+    def get_success_url(self):
+        return reverse_lazy("profile_detail")
 
 class Register(CreateView):
     model = Profile
@@ -38,7 +45,18 @@ class Register(CreateView):
 class ProfileDetailView(LoginRequiredMixin, TemplateView):
     template_name = "accounts/profile_detail.html"
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["user"] = self.request.user
-    #     return context
+class ProfileChange(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileEditForm
+    template_name = "accounts/profile_change.html"
+    success_url = reverse_lazy("profile_detail")
+
+    def get_object(self):
+        return self.request.user
+    
+class Logout(LogoutView):
+    next_page = reverse_lazy("home")
+
+class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = "accounts/pass_change.html"
+    success_url = reverse_lazy("profile_detail")

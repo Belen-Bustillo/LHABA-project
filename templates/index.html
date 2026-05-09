@@ -740,7 +740,10 @@
     border-color: var(--lhaba-red-dark);
     color: #fff;
   }
-
+  .nav-btn-reset {
+    background: none;
+    border: none;
+  }
   </style>    
 </head>
 <body>
@@ -769,20 +772,25 @@
           {% if user.is_authenticated %}
             <!-- PERFIL -->
             <li class="nav-item">
-              <a href="{% url 'profile_detail' %}" class="btn-cta btn-cta-outline">
+              <a href="{% url 'profile_detail' %}" class="btn-login">
                 <i class="bi bi-person-fill"></i> Mi Perfil
               </a>
             </li>
 
             <!-- LOGOUT -->
             <li class="nav-item">
-              <a href="#" class="btn-cta btn-cta-primary">
-                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
-              </a>
-            </li>          
+              <form action="{% url 'logout' %}" method="POST" class="">
+                {% csrf_token %}
+
+                <button type="submit" class="btn-login nav-btn-reset">
+                  <i class="bi bi-box-arrow-in-right me-1"></i>
+                  Cerrar sesión
+                </button>
+              </form>
+            </li>             
           {% else %}
             <li class="nav-item">
-              <a href="#" class="btn-login">
+              <a href="{% url 'login' %}" class="btn-login">
                 <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
               </a>
             </li>

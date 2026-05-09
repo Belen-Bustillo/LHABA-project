@@ -1,0 +1,230 @@
+{% extends 'index.html' %}
+{% block title %} <title>Cambiar Contraseña - LHABAfem</title> {% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl password-container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Cambiar contraseña</div>
+
+    <div class="page-subtitle">
+      Actualizá la contraseña de tu cuenta
+    </div>
+  </div>
+
+  <!-- CARD -->
+  <div class="card-detail password-card">
+
+    <form method="POST">
+
+      {% csrf_token %}
+
+      <!-- ERRORES -->
+      {% if form.errors %}
+        <div class="form-error-box">
+          {{ form.errors }}
+        </div>
+      {% endif %}
+
+      <!-- PASSWORD ACTUAL -->
+      <div class="form-group mb-4">
+        <label class="form-label">
+          Contraseña actual
+        </label>
+
+        {{ form.old_password }}
+      </div>
+
+      <!-- NUEVA PASSWORD -->
+      <div class="form-group mb-4">
+        <label class="form-label">
+          Nueva contraseña
+        </label>
+
+        {{ form.new_password1 }}
+      </div>
+
+      <!-- CONFIRMAR -->
+      <div class="form-group mb-4">
+        <label class="form-label">
+          Confirmar nueva contraseña
+        </label>
+
+        {{ form.new_password2 }}
+      </div>
+
+      <!-- HELP TEXT -->
+      <div class="password-help">
+
+        <div class="password-help-title">
+          Requisitos de contraseña
+        </div>
+
+        <ul>
+          <li>No puede ser demasiado similar a tu información personal.</li>
+          <li>Debe contener al menos 8 caracteres.</li>
+          <li>No puede ser una contraseña común.</li>
+          <li>No puede ser completamente numérica.</li>
+        </ul>
+
+      </div>
+
+      <!-- BOTONES -->
+      <div class="password-actions">
+
+        <button type="submit" class="btn-cta btn-cta-primary">
+          <i class="bi bi-check-circle-fill"></i>
+          Guardar contraseña
+        </button>
+
+        <a href="{% url 'profile_detail' %}" class="btn-cta btn-cta-outline-red">
+          <i class="bi bi-arrow-left"></i>
+          Cancelar
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<style>
+
+.password-container {
+  padding-bottom: 80px;
+}
+
+.password-card {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* FORM */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 10px;
+  color: #ddd;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.form-control {
+  background-color: #1E1E22;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+
+  padding: 12px;
+  border-radius: 6px;
+
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  background-color: #1E1E22;
+  color: #fff;
+
+  border-color: var(--lhaba-red);
+
+  box-shadow: 0 0 0 3px rgba(208,40,42,0.15);
+
+  outline: none;
+}
+
+/* HELP */
+
+.password-help {
+  margin-top: 10px;
+
+  background-color: rgba(255,255,255,0.03);
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  border-radius: 6px;
+
+  padding: 18px;
+}
+
+.password-help-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  color: #fff;
+
+  margin-bottom: 10px;
+}
+
+.password-help ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.password-help li {
+  color: #999;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+/* BOTONES */
+
+.password-actions {
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+
+  flex-wrap: wrap;
+}
+
+/* OUTLINE RED */
+
+.btn-cta-outline-red {
+  background-color: var(--bg-card);
+  color: #fff;
+
+  border: 2px solid var(--lhaba-red);
+}
+
+.btn-cta-outline-red:hover {
+  background-color: rgba(208,40,42,0.1);
+
+  color: #fff;
+
+  border-color: var(--lhaba-red);
+
+  transform: translateY(-2px);
+}
+
+/* ERRORES */
+
+.form-error-box {
+  background-color: rgba(255, 107, 107, 0.1);
+
+  border: 1px solid #ff6b6b;
+
+  color: #ff6b6b;
+
+  padding: 12px;
+
+  border-radius: 6px;
+
+  margin-bottom: 20px;
+
+  font-size: 0.9rem;
+}
+
+</style>
+
+{% endblock %}

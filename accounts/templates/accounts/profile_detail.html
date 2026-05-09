@@ -61,10 +61,15 @@
 
         <!-- BOTON EDITAR -->
         <div class="profile-actions">
-          <a href="#" class="btn-cta btn-cta-primary">
+          <a href="{% url 'profile_change' %}" class="btn-cta btn-cta-primary">
             <i class="bi bi-pencil-fill"></i> Editar perfil
           </a>
         </div>
+        <div class="profile-actions">
+          <a href="{% url 'pass_change' %}" class="btn-cta btn-cta-primary">
+            <i class="bi bi-pencil-fill"></i> Cambiar contraseña
+          </a>
+        </div>        
 
       </div>
     </div>

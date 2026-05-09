@@ -1,0 +1,225 @@
+{% extends 'index.html' %}
+{% block title %} <title>Editar Perfil - LHABAfem</title> {% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl profile-edit-container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Editar Perfil</div>
+    <div class="page-subtitle">
+      Actualizá tu información personal
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="card-detail profile-edit-card">
+
+    <form method="POST" enctype="multipart/form-data">
+
+      {% csrf_token %}
+
+      <!-- ERRORES -->
+      {% if form.errors %}
+        <div class="form-error-box">
+          {{ form.errors }}
+        </div>
+      {% endif %}
+
+    <!-- AVATAR -->
+    <div class="profile-avatar-section">
+
+    <div class="profile-avatar-wrapper">
+        
+        <div class="profile-avatar">
+            <img src="{{ user.avatar.url }}" alt="Avatar">
+        </div>
+
+        <label class="avatar-upload-label">
+            <i class="bi bi-image"></i>
+            <input 
+                type="file"
+                name="avatar"
+                accept="image/*"
+            >
+        </label>
+
+    </div>
+
+    </div>
+
+      <!-- DATOS -->
+      <div class="form-group mb-3">
+        <label class="form-label">Usuario</label>
+        {{ form.username }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Nombre</label>
+        {{ form.first_name }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Apellido</label>
+        {{ form.last_name }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Email</label>
+        {{ form.email }}
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">DNI</label>
+        {{ form.dni }}
+      </div>
+
+      <div class="form-group mb-4">
+        <label class="form-label">Fecha de nacimiento</label>
+        {{ form.fecha_de_nacimiento }}
+      </div>
+
+      <!-- INFO SOLO LECTURA -->
+      <div class="detail-row">
+        <div class="detail-label">Club</div>
+        <div class="detail-value">
+
+          {% if user.club %}
+            {{ user.club.nombre_completo }}
+          {% else %}
+            <span class="text-muted">Sin club asignado</span>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="profile-actions">
+
+        <button type="submit" class="btn-cta btn-cta-primary">
+          <i class="bi bi-check-circle"></i>
+          Guardar cambios
+        </button>
+
+        <a href="{% url 'profile_detail' %}" class="btn-cta btn-cta-outline-red">
+          <i class="bi bi-arrow-left"></i>
+          Cancelar
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<style>
+
+.profile-edit-container {
+  padding-bottom: 80px;
+}
+
+.profile-edit-card {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* AVATAR */
+
+.profile-avatar-section {
+  margin-bottom: 30px;
+}
+
+.profile-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--lhaba-red);
+  background-color: #1E1E22;
+}
+
+/* FORM */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 10px;
+  color: #ddd;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.form-control {
+  background-color: #1E1E22;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  background-color: #1E1E22;
+  color: #fff;
+  border-color: var(--lhaba-red);
+  box-shadow: 0 0 0 3px rgba(208,40,42,0.15);
+}
+
+/* BOTONES */
+
+.profile-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* OUTLINE RED */
+
+.btn-cta-outline-red {
+  background-color: var(--bg-card);
+  color: #fff;
+  border: 2px solid var(--lhaba-red);
+}
+
+.btn-cta-outline-red:hover {
+  background-color: rgba(208,40,42,0.1);
+  color: #fff;
+  border-color: var(--lhaba-red);
+  transform: translateY(-2px);
+}
+
+/* ERRORES */
+
+.form-error-box {
+  background-color: rgba(255, 107, 107, 0.1);
+  border: 1px solid #ff6b6b;
+  color: #ff6b6b;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+/* TEXTO */
+
+.text-muted {
+  color: #777;
+}
+
+</style>
+
+{% endblock %}

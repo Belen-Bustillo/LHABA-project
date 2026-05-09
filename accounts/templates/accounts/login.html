@@ -1,0 +1,194 @@
+{% extends 'index.html' %}
+{% block title %} <title>Iniciar Sesión - LHABAfem</title> {% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl login-container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Iniciar Sesión</div>
+    <div class="page-subtitle">
+      Accedé con tu cuenta de coordinador deportivo
+    </div>
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div class="card-detail login-card">
+
+    <form method="POST">
+
+      {% csrf_token %}
+
+      <!-- ERRORES -->
+      {% if form.errors %}
+        <div class="form-error-box">
+          Usuario o contraseña incorrectos.
+        </div>
+      {% endif %}
+
+      <!-- USERNAME -->
+      <div class="form-group mb-4">
+        <label class="form-label">Usuario</label>
+        {{ form.username }}
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form-group mb-4">
+        <label class="form-label">Contraseña</label>
+        {{ form.password }}
+      </div>
+
+      <!-- LOGIN BUTTON -->
+      <div class="login-actions">
+
+        <button type="submit" class="btn-cta btn-cta-primary auth-btn">
+          <i class="bi bi-box-arrow-in-right"></i>
+          Ingresar
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- REGISTER CARD -->
+  <div class="card-detail register-card">
+
+    <div class="register-title">
+      ¿Todavía no te registraste?
+    </div>
+
+    <div class="register-subtitle">
+      Creá tu cuenta para administrar tu club y equipos.
+    </div>
+
+    <div class="register-actions">
+
+      <a href="{% url 'register' %}" class="btn-cta btn-cta-outline-red auth-btn">
+        <i class="bi bi-person-plus-fill"></i>
+        Registrarse
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+
+.login-container {
+  padding-bottom: 80px;
+}
+
+/* CARDS */
+
+.login-card,
+.register-card {
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.register-card {
+  margin-top: 25px;
+  text-align: center;
+}
+
+/* FORM */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 12px;
+  color: #ddd;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.form-control {
+  background-color: #1E1E22;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  background-color: #1E1E22;
+  color: #fff;
+  border-color: var(--lhaba-red);
+  box-shadow: 0 0 0 3px rgba(208,40,42,0.15);
+  outline: none;
+}
+
+/* BUTTONS */
+
+.login-actions,
+.register-actions {
+  margin-top: 25px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.auth-btn {
+  width: 230px;
+  justify-content: center;
+}
+
+/* REGISTER CARD */
+
+.register-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.register-subtitle {
+  color: #888;
+  font-size: 0.95rem;
+}
+
+/* OUTLINE RED */
+
+.btn-cta-outline-red {
+  background-color: var(--bg-card);
+  color: #fff;
+  border: 2px solid var(--lhaba-red);
+}
+
+.btn-cta-outline-red:hover {
+  background-color: rgba(208,40,42,0.1);
+  color: #fff;
+  border-color: var(--lhaba-red);
+  transform: translateY(-2px);
+}
+
+/* ERRORS */
+
+.form-error-box {
+  background-color: rgba(255, 107, 107, 0.1);
+  border: 1px solid #ff6b6b;
+  color: #ff6b6b;
+
+  padding: 12px;
+  border-radius: 6px;
+
+  margin-bottom: 25px;
+
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+</style>
+
+{% endblock %}
