@@ -744,6 +744,74 @@
     background: none;
     border: none;
   }
+
+  .join-league-section {
+    margin-top: -60px;
+    margin-bottom: 80px;
+  }
+
+  .join-league-card {
+    background:
+      linear-gradient(
+        135deg,
+        rgba(208,40,42,0.12),
+        rgba(30,30,34,0.95)
+      );
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    border-radius: 14px;
+
+    padding: 50px 40px;
+
+    text-align: center;
+
+    position: relative;
+    overflow: hidden;
+  }
+
+  .join-league-title {
+    font-family: 'Barlow Condensed', sans-serif;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    color: #fff;
+
+    margin-bottom: 18px;
+  }
+
+  .join-league-text {
+    max-width: 700px;
+
+    margin: 0 auto 30px auto;
+
+    color: #bbb;
+
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .btn-cta-outline-red {
+    background-color: var(--bg-card);
+
+    color: #fff;
+
+    border: 2px solid var(--lhaba-red);
+  }
+
+  .btn-cta-outline-red:hover {
+    background-color: rgba(208,40,42,0.1);
+
+    color: #fff;
+
+    border-color: var(--lhaba-red);
+
+    transform: translateY(-2px);
+  }
+
   </style>    
 </head>
 <body>
@@ -837,6 +905,48 @@
         </div>
       </div>
     </section>
+    <!-- REGISTRO CLUBES -->
+    <section class="join-league-section">
+
+      <div class="container-xl">
+
+        <div class="join-league-card">
+
+          <div class="join-league-content">
+
+            <div class="join-league-title">
+              ¿Querés que tu club participe de la liga?
+            </div>
+
+            <div class="join-league-text">
+              Registrate como coordinador deportivo y comenzá a gestionar tu club,
+              equipos y jugadoras dentro de LHABAfem.
+            </div>
+
+            {% if not user.is_authenticated %}
+
+              <a href="{% url 'register' %}" class="btn-cta btn-cta-primary">
+                <i class="bi bi-person-plus-fill"></i>
+                Registrarme
+              </a>
+
+            {% else %}
+
+              <a href="{% url 'profile_detail' %}" class="btn-cta btn-cta-outline-red">
+                <i class="bi bi-person-fill"></i>
+                Ir a mi perfil
+              </a>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
   {% endblock %}
   </main>
     <!-- FOOTER -->

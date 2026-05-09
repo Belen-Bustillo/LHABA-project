@@ -13,17 +13,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import *
 from accounts.forms import *
 
-
-# def register(request):
-#     if request.method == "POST":
-#         form = ProfileCreateForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             login(request, user)
-#             return redirect("profile_detail")
-#     else:
-#         form = PerfilCreateForm()
-#     return render(request, "accounts/register.html", {"form": form})
 class Login(LoginView):
     template_name = "accounts/login.html"
     redirect_authenticated_user = True
@@ -53,6 +42,17 @@ class ProfileChange(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+    def form_valid(self, form):
+
+        if self.request.POST.get("delete_avatar"):
+
+            if self.object.avatar:
+                self.object.avatar.delete(save=False)
+
+            self.object.avatar = "default/avatar.png"
+
+        return super().form_valid(form)
     
 class Logout(LogoutView):
     next_page = reverse_lazy("home")

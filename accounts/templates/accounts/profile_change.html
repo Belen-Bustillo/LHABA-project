@@ -44,8 +44,24 @@
                 accept="image/*"
             >
         </label>
+      {% if user.avatar and user.avatar.name != "default/avatar.png" %}
+
+        <label class="avatar-delete-label">
+
+          <input 
+            type="checkbox"
+            name="delete_avatar"
+          >
+
+          <i class="bi bi-trash-fill"></i>
+          Eliminar imagen actual
+
+        </label>
+
+      {% endif %}        
 
     </div>
+    
 
     </div>
 
@@ -218,6 +234,25 @@
 
 .text-muted {
   color: #777;
+}
+
+.avatar-delete-label {
+  margin-top: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  color: #ff6b6b;
+
+  font-size: 0.9rem;
+
+  cursor: pointer;
+}
+
+.avatar-delete-label input {
+  accent-color: var(--lhaba-red);
 }
 
 </style>

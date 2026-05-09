@@ -1,5 +1,6 @@
 from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
 from accounts.views import *
 
 urlpatterns = [
@@ -10,3 +11,8 @@ urlpatterns = [
     path("logout/",Logout.as_view(), name="logout"),
     path("perfil_coordinador/pass_change/",UserPasswordChangeView.as_view(), name="pass_change"),
 ]
+
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)
