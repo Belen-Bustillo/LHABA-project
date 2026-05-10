@@ -27,7 +27,7 @@ def club_detalle(request,nombre_siglas):
     }
     return render(request, "clubes/club_detail.html", contexto)
 
-def ver_equipos(request,nombre_siglas):
+def ver_equipos_admin(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categorias = Categoria.objects.all()
     personas = PersonaRol.objects.filter(club=club)
@@ -63,13 +63,51 @@ def ver_equipos(request,nombre_siglas):
  
     return render(request, "clubes/equipo_detail.html", contexto)
 
+def ver_equipos_list(request,nombre_siglas):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    categorias = Categoria.objects.all()
+    personas = PersonaRol.objects.filter(club=club)
+ 
+    equipos = []
+ 
+    for categoria in categorias:
+        ver_personas = personas.filter(categoria=categoria)
+        dt = ver_personas.filter(rol__rol="Director Tecnico").first()
+        asistentes = ver_personas.filter(rol__rol="Asistente")
+        jugadoras = ver_personas.filter(rol__rol="Jugadora")
+ 
+        if ver_personas.exists():
+            lista_asistentes = []
+            for a in asistentes:
+                lista_asistentes.append(a.persona)
+ 
+            lista_jugadoras = []
+            for b in jugadoras:
+                lista_jugadoras.append(b.persona)
+ 
+            equipos.append({
+                "categoria": categoria.nombre_categoria,
+                "dt": dt.persona if dt else None,
+                "asistentes": lista_asistentes,
+                "jugadoras": lista_jugadoras
+            })
+ 
+    contexto = {
+        "club": club,
+        "equipos": equipos
+    }
+ 
+    return render(request, "clubes/equipo_detail_list.html", contexto)
+
 #CREATE
 def registrar_club(request):
     if request.method == "POST":
         form = ClubesRegistradosForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("clubes_list")
+            club = form.save(commit=False)
+            club.coordinador_deportivo = request.user
+            club.save()
+            return redirect("profile_detail")
     else:
         form = ClubesRegistradosForm()
     contexto = {"form": form}
@@ -92,7 +130,7 @@ def registrar_persona(request,nombre_siglas):
             persona_rol.club = club
             persona_rol.save()
             
-            return redirect('club_detalle', nombre_siglas=nombre_siglas)
+            return redirect('profile_detail')
     else:
         persona_form = PersonaForm()
         rol_form = PersonaRolForm()
@@ -111,7 +149,7 @@ def actualizar_club(request, nombre_siglas):
         form = ClubesRegistradosForm(request.POST, instance=club)
         if form.is_valid():
             form.save()
-            return redirect("clubes_list")
+            return redirect("profile_detail")
     else:
         form = ClubesRegistradosForm(instance=club)      
     
@@ -121,7 +159,6 @@ def actualizar_club(request, nombre_siglas):
         "update" : True
     }
     return render(request, "clubes/club_update.html", contexto)
-
 
 def actualizar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)

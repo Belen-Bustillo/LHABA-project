@@ -1,4 +1,5 @@
 from django.db import models
+# from accounts.models import Profile
 
 class ClubesRegistrados(models.Model):
     id = models.AutoField(primary_key=True)
@@ -8,6 +9,13 @@ class ClubesRegistrados(models.Model):
     localidad = models.CharField()
     email = models.EmailField()
     fecha_ingreso = models.DateField(auto_now_add=True)
+    coordinador_deportivo = models.OneToOneField(
+        "accounts.Profile",
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name="club"
+    )
 
     def __str__(self):
         return f"Club registrado: {self.nombre_siglas} - {self.nombre_completo}"

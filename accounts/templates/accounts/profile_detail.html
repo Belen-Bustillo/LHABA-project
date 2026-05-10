@@ -15,9 +15,12 @@
 
     <!-- PERFIL -->
     <div class="col-md-6">
+
       <div class="card-detail">
 
-        <div class="section-title-small">Datos personales</div>
+        <div class="section-title-small">
+          Datos personales
+        </div>
 
         <div class="profile-avatar">
           <img src="{{ user.avatar.url }}" alt="Avatar">
@@ -50,35 +53,51 @@
 
         <div class="detail-row">
           <div class="detail-label">Fecha de nacimiento</div>
+
           <div class="detail-value">
+
             {% if user.fecha_de_nacimiento %}
               {{ user.fecha_de_nacimiento }}
             {% else %}
               <span class="text-muted">No cargado</span>
             {% endif %}
+
           </div>
+
         </div>
 
-        <!-- BOTON EDITAR -->
+        <!-- BOTONES -->
         <div class="profile-actions">
+
           <a href="{% url 'profile_change' %}" class="btn-cta btn-cta-primary">
-            <i class="bi bi-pencil-fill"></i> Editar perfil
+            <i class="bi bi-pencil-fill"></i>
+            Editar perfil
           </a>
+
         </div>
+
         <div class="profile-actions">
+
           <a href="{% url 'pass_change' %}" class="btn-cta btn-cta-primary">
-            <i class="bi bi-pencil-fill"></i> Cambiar contraseña
+            <i class="bi bi-shield-lock-fill"></i>
+            Cambiar contraseña
           </a>
-        </div>        
+
+        </div>
 
       </div>
+
     </div>
 
-    <!-- CLUB -->
+    <!-- COLUMNA DERECHA -->
     <div class="col-md-6">
+
+      <!-- CLUB -->
       <div class="card-detail">
 
-        <div class="section-title-small">Mi Club</div>
+        <div class="section-title-small">
+          Mi Club
+        </div>
 
         {% if user.club %}
 
@@ -103,27 +122,116 @@
           </div>
 
           <div class="profile-actions">
-            <a href="{% url 'club_detalle' user.club.nombre_siglas %}" class="btn-cta btn-cta-outline">
-              <i class="bi bi-eye-fill"></i> Ver club
+
+            <a 
+              href="{% url 'club_actualizar' user.club.nombre_siglas %}" 
+              class="btn-cta btn-cta-outline"
+            >
+              <i class="bi bi-building-fill-gear"></i>
+              Editar datos del club
             </a>
+
           </div>
 
         {% else %}
 
           <div class="empty-club">
+
             <p>No tenés un club creado.</p>
-            <p class="text-muted">Creá tu club para empezar a gestionar equipos.</p>
+
+            <p class="text-muted">
+              Creá tu club para empezar a gestionar equipos.
+            </p>
+
           </div>
 
           <div class="profile-actions">
+
             <a href="{% url 'registrar_club' %}" class="btn-cta btn-cta-primary">
-              <i class="bi bi-plus-circle"></i> Crear club
+              <i class="bi bi-plus-circle"></i>
+              Crear club
             </a>
+
           </div>
 
         {% endif %}
 
       </div>
+
+      <!-- EQUIPOS -->
+      <div class="card-detail mt-4">
+
+        <div class="section-title-small">
+          Mis equipos
+        </div>
+
+        {% if equipos %}
+
+          <div class="team-list">
+
+            {% for equipo in equipos %}
+
+              <div class="team-item">
+
+                <div class="team-item-header">
+
+                  <div class="team-name">
+                    {{ equipo.nombre_categoria }}
+                  </div>
+
+                  <span class="team-badge">
+                    Equipo oficial
+                  </span>
+
+                </div>
+                <div class="team-details">
+                  <div class="team-detail">
+                    <span>Personas:</span>
+                    {{ equipo.personarol_set.count }}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="profile-actions mt-4">
+            <a 
+              href="{% url 'ver_equipos' user.club.nombre_siglas %}" 
+              class="btn-cta btn-cta-outline"
+            >
+              <i class="bi bi-people-fill"></i>
+              Administrar equipos
+            </a>
+          </div>
+        {% else %}
+          {% if user.club %}
+            <div class="empty-club">
+              <p>No tenés equipos cargados.</p>
+              <p class="text-muted">
+                Registrá jugadoras y categorías para comenzar.
+              </p>
+
+            <div class="profile-actions">
+              <a 
+                href="{% url 'registrar_persona' user.club.nombre_siglas %}" 
+                class="btn-cta btn-cta-outline"
+              >
+                <i class="bi bi-building-fill-gear"></i>
+                Registrar miembros del club
+              </a>
+            </div>              
+            </div>
+          {% else %}
+            <div class="empty-club">
+              <p>No tenés un club creado.</p>
+              <p class="text-muted">
+                Creá tu club para empezar a gestionar equipos.
+              </p>
+          </div>
+          {% endif %}
+        {% endif %}
+
+      </div>
+
     </div>
 
   </div>
@@ -136,7 +244,8 @@
   padding-bottom: 80px;
 }
 
-/* TITULO SECCION */
+/* TITULOS */
+
 .section-title-small {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
@@ -147,6 +256,7 @@
 }
 
 /* AVATAR */
+
 .profile-avatar {
   display: flex;
   justify-content: center;
@@ -162,13 +272,17 @@
 }
 
 /* BOTONES */
+
 .profile-actions {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-/* MENSAJE SIN CLUB */
+/* EMPTY */
+
 .empty-club {
   text-align: center;
   padding: 20px;
@@ -177,6 +291,82 @@
 
 .text-muted {
   color: #777;
+}
+
+/* EQUIPOS */
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.team-item {
+  background-color: rgba(255,255,255,0.03);
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  border-radius: 8px;
+
+  padding: 16px;
+
+  transition: all 0.2s ease;
+}
+
+.team-item:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(208,40,42,0.4);
+
+  background-color: rgba(208,40,42,0.05);
+}
+
+.team-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 12px;
+}
+
+.team-name {
+  color: #fff;
+
+  font-weight: 700;
+
+  font-size: 1rem;
+}
+
+.team-badge {
+  background-color: rgba(208,40,42,0.12);
+
+  border: 1px solid rgba(208,40,42,0.3);
+
+  color: #fff;
+
+  font-size: 0.75rem;
+
+  padding: 5px 10px;
+
+  border-radius: 30px;
+}
+
+.team-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.team-detail {
+  color: #aaa;
+
+  font-size: 0.92rem;
+}
+
+.team-detail span {
+  color: #fff;
+
+  font-weight: 600;
 }
 
 </style>

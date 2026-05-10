@@ -12,6 +12,7 @@ from django.contrib.auth.views import LoginView,LogoutView,PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import *
 from accounts.forms import *
+from clubes.models import Categoria
 
 class Login(LoginView):
     template_name = "accounts/login.html"
@@ -33,6 +34,17 @@ class Register(CreateView):
     
 class ProfileDetailView(LoginRequiredMixin, TemplateView):
     template_name = "accounts/profile_detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        if hasattr(user, "club"):
+            categorias = Categoria.objects.filter(
+                personarol__club=user.club
+            ).distinct()
+            context["equipos"] = categorias
+        else:
+            context["equipos"] = []
+        return context
 
 class ProfileChange(LoginRequiredMixin, UpdateView):
     model = Profile

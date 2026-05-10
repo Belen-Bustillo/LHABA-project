@@ -7,9 +7,11 @@
     <div class="page-header">
       <div class="page-title">Clubes</div>
         <!-- BOTÓN REGISTRAR NUEVO CLUB -->
-        <a href="{% url 'registrar_club' %}" class="btn-cta btn-cta-danger">
-        <i class="bi bi-plus-circle"></i> ¿Queres ser parte de la liga? Registra tu club aca!
-      </a>
+        {% if not user.is_authenticated %} 
+        <a href="{% url 'register' %}" class="btn-cta btn-cta-danger">
+          <i class="bi bi-plus-circle"></i> ¿Queres ser parte de la liga? Registrate!
+        </a>
+        {% endif %}
     </div>
     <!-- TABLA -->
     <div class="table-card">
