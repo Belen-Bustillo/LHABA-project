@@ -917,23 +917,26 @@
             <div class="join-league-title">
               ¿Querés que tu club participe de la liga?
             </div>
+
+            <div class="join-league-text">
+              Registrate como coordinador deportivo y comenzá a gestionar tu club,
+              equipos y jugadoras dentro de LHABAfem.
+            </div>
+
             {% if not user.is_authenticated %}
-              <div class="join-league-text">
-                Registrate como coordinador deportivo y comenzá a gestionar tu club,
-                equipos y jugadoras dentro de LHABAfem.
-              </div>
+
               <a href="{% url 'register' %}" class="btn-cta btn-cta-primary">
                 <i class="bi bi-person-plus-fill"></i>
                 Registrarme
               </a>
+
             {% else %}
-              <div class="join-league-text">
-                Gestioná tu club, equipos y jugadoras dentro de LHABAfem desde tu perfil.
-              </div>            
+
               <a href="{% url 'profile_detail' %}" class="btn-cta btn-cta-outline-red">
                 <i class="bi bi-person-fill"></i>
                 Ir a mi perfil
               </a>
+
             {% endif %}
 
           </div>
