@@ -109,7 +109,7 @@
           <button type="submit" class="btn btn-danger">
             <i class="bi bi-check-circle"></i> Registrar Miembro
           </button>
-          <a href="{% url 'equipos_detalle' club.nombre_siglas %}" class="btn btn-outline-secondary">
+          <a href="{% url 'administrar_equipos' user.club.nombre_siglas %}" class="btn btn-outline-secondary">
             <i class="bi bi-x-circle"></i> Cancelar
           </a>
         </div>

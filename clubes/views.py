@@ -8,6 +8,7 @@ def home(request):
 
 
 #READ
+# clubes
 def clubes_list(request):
     nombre = request.GET.get("search")
     clubes_query = ClubesRegistrados.objects.all()
@@ -27,7 +28,8 @@ def club_detalle(request,nombre_siglas):
     }
     return render(request, "clubes/club_detail.html", contexto)
 
-def ver_equipos_admin(request,nombre_siglas):
+#personas-equipos
+def administrar_equipos(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categorias = Categoria.objects.all()
     personas = PersonaRol.objects.filter(club=club)
@@ -50,7 +52,7 @@ def ver_equipos_admin(request,nombre_siglas):
                 lista_jugadoras.append(b.persona)
  
             equipos.append({
-                "categoria": categoria.nombre_categoria,
+                "categoria": categoria,
                 "dt": dt.persona if dt else None,
                 "asistentes": lista_asistentes,
                 "jugadoras": lista_jugadoras
@@ -61,7 +63,7 @@ def ver_equipos_admin(request,nombre_siglas):
         "equipos": equipos
     }
  
-    return render(request, "clubes/equipo_detail.html", contexto)
+    return render(request, "clubes/equipo_administrar.html", contexto)
 
 def ver_equipos_list(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
@@ -86,7 +88,7 @@ def ver_equipos_list(request,nombre_siglas):
                 lista_jugadoras.append(b.persona)
  
             equipos.append({
-                "categoria": categoria.nombre_categoria,
+                "categoria": categoria,
                 "dt": dt.persona if dt else None,
                 "asistentes": lista_asistentes,
                 "jugadoras": lista_jugadoras
@@ -100,6 +102,7 @@ def ver_equipos_list(request,nombre_siglas):
     return render(request, "clubes/equipo_detail_list.html", contexto)
 
 #CREATE
+#club
 def registrar_club(request):
     if request.method == "POST":
         form = ClubesRegistradosForm(request.POST)
@@ -113,6 +116,7 @@ def registrar_club(request):
     contexto = {"form": form}
     return render(request, "clubes/club_create.html", contexto)
 
+#personas
 def registrar_persona(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
 
@@ -130,7 +134,7 @@ def registrar_persona(request,nombre_siglas):
             persona_rol.club = club
             persona_rol.save()
             
-            return redirect('profile_detail')
+            return redirect("administrar_equipos", nombre_siglas=nombre_siglas)
     else:
         persona_form = PersonaForm()
         rol_form = PersonaRolForm()
@@ -140,9 +144,10 @@ def registrar_persona(request,nombre_siglas):
         "persona_form": persona_form,
         "rol_form": rol_form
     }
-    return render(request, "clubes/registrar_persona.html", contexto)
+    return render(request, "clubes/persona_registrar.html", contexto)
 
 #UPDATE
+#club
 def actualizar_club(request, nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     if request.method == "POST":
@@ -160,6 +165,7 @@ def actualizar_club(request, nombre_siglas):
     }
     return render(request, "clubes/club_update.html", contexto)
 
+#personas
 def actualizar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     
@@ -173,7 +179,7 @@ def actualizar_persona(request, nombre_siglas, persona_id):
         if persona_form.is_valid() and rol_form.is_valid():
             persona_form.save()
             rol_form.save()
-            return redirect('equipos_detalle', nombre_siglas=nombre_siglas)
+            return redirect('administrar_equipos', nombre_siglas=nombre_siglas)
 
     else:
         persona_form = PersonaForm(instance=persona)
@@ -185,9 +191,10 @@ def actualizar_persona(request, nombre_siglas, persona_id):
         "rol_form": rol_form
     }
 
-    return render(request, "clubes/actualizar_persona.html", contexto)
+    return render(request, "clubes/persona_actualizar.html", contexto)
 
 #DELETE
+#club
 def consulta_eliminar_club(request, nombre_siglas):
     return render(request, "clubes/club_delete.html",{
         "nombre_siglas": nombre_siglas
@@ -197,4 +204,46 @@ def eliminar_club(request, nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     if request.method == "POST":
         club.delete()
-        return redirect("clubes_list")
+        return redirect("profile_detail")
+
+#personas-equipos
+def consulta_eliminar_persona(request, nombre_siglas, persona_id):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    persona = get_object_or_404(Persona, id_persona=persona_id)
+    return render(request, "clubes/persona_delete.html",{
+        "club": club,
+        "persona": persona
+    })
+
+def eliminar_persona(request, nombre_siglas, persona_id):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    persona = get_object_or_404(Persona, id_persona=persona_id)
+    if request.method == "POST":
+        persona.delete()
+        return redirect("administrar_equipos", nombre_siglas=nombre_siglas)
+    return redirect("consulta_eliminar_persona", nombre_siglas=nombre_siglas, persona_id=persona_id)
+    
+def consulta_eliminar_equipo(request, nombre_siglas, categoria_id):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
+    return render(request, "clubes/equipo_delete.html",{
+        "club": club,
+        "categoria": categoria
+    })
+
+def eliminar_equipo(request, nombre_siglas, categoria_id):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
+
+    if request.method == "POST":
+        PersonaRol.objects.filter(
+            club=club,
+            categoria=categoria
+        ).delete()
+
+        return redirect("administrar_equipos", nombre_siglas=club.nombre_siglas)
+
+    return render(request, "clubes/confirmar_eliminar_equipo.html", {
+        "club": club,
+        "categoria": categoria
+    })

@@ -1,0 +1,216 @@
+{% extends 'index.html' %}
+{% block title %} <title>{{ club.nombre_corto }} - Equipos</title> {% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Administrar equipos por categoria</div>
+    <div class="page-subtitle">Registra, edita o elimina tus equipos.</div>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'registrar_persona' club.nombre_siglas %}" class="btn-cta btn-cta-danger">
+      <i class="bi bi-plus-circle"></i> Registrar nuevo miembro del club
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="row g-4">
+
+    {% if equipos %}
+      {% for equipo in equipos %}
+
+      <div class="col-md-6 col-lg-4">
+
+        <!-- CARD EQUIPO -->
+        <div class="division-card division-lhaba position-relative">
+
+          <!-- BORRAR EQUIPO -->
+          <a href="{% url 'consulta_eliminar_equipo' club.nombre_siglas equipo.categoria.id_categoria %}" 
+             class="trash-equipo">
+            <i class="bi bi-trash-fill"></i>
+          </a>
+
+          <!-- CATEGORIA -->
+          <div class="division-header">
+            <div class="division-icon lhaba">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <div>
+              <div class="division-name">{{ equipo.categoria }}</div>
+              <div class="division-torneo">Equipo oficial</div>
+            </div>
+          </div>
+
+          <!-- DT -->
+          <div class="detail-row">
+            <div class="detail-label">Director Técnico</div>
+            <div class="detail-value">
+
+              {% if equipo.dt %}
+                <a href="{% url 'actualizar_persona' club.nombre_siglas equipo.dt.id_persona %}" class="categoria-item"
+                   style="color: inherit; text-decoration: none;">
+                  {{ equipo.dt.nombre }} {{ equipo.dt.apellido }}
+                </a>
+             
+              {% else %}
+                <a href="{% url 'registrar_persona' club.nombre_siglas %}"  class="categoria-item"
+                   style="color: #999; text-decoration: none;">
+                  Registrar DT
+                </a>
+              {% endif %}
+
+            </div>
+          </div>
+
+          <!-- ASISTENTES -->
+          <div class="mt-3">
+            <div class="detail-label mb-2">Asistentes</div>
+
+            <div class="categoria-list">
+
+              {% if equipo.asistentes %}
+                {% for a in equipo.asistentes %}
+                  <div class="categoria-item">
+                    <i class="bi bi-circle-fill"></i>
+                    <a href="{% url 'actualizar_persona' club.nombre_siglas a.id_persona %}" 
+                       style="color: inherit; text-decoration: none;">
+                      {{ a.nombre }} {{ a.apellido }}
+                    </a>
+                  </div>
+                  
+                  <!-- eliminar -->
+                  <a href="{% url 'consulta_eliminar_persona' club.nombre_siglas a.id_persona %} "
+                    class="trash-icon trash-icon--small">
+                    <i class="bi bi-trash-fill"></i>
+                  </a>
+                {% endfor %}
+              {% else %}
+                <a href="{% url 'registrar_persona' club.nombre_siglas %}"  class="categoria-item"
+                   style="color: #999; text-decoration: none;">
+                  Registrar asistente
+                </a>
+              {% endif %}
+
+            </div>
+          </div>
+
+          <!-- JUGADORAS -->
+          <div class="mt-3">
+
+            <div class="detail-label mb-2">Jugadoras</div>
+
+            <a href="{% url 'registrar_persona' club.nombre_siglas %}" 
+               class="detail-label mb-2"
+               style="text-decoration: none; display: inline-block; margin-bottom: 10px;">
+              <i class="bi bi-plus-circle-fill"></i>
+              Registrar nueva jugadora
+            </a>
+
+            <div class="categoria-list">
+
+              {% if equipo.jugadoras %}
+                {% for j in equipo.jugadoras %}
+
+                <div class="categoria-item d-flex justify-content-between align-items-center">
+
+                  <!-- nombre -->
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-circle-fill"></i>
+
+                    <a href="{% url 'actualizar_persona' club.nombre_siglas j.id_persona %}" 
+                       style="color: inherit; text-decoration: none;">
+                      {{ j.nombre }} {{ j.apellido }}
+                    </a>
+                  </div>
+
+                  <!-- eliminar jugadora -->
+                  <a href="{% url 'consulta_eliminar_persona' club.nombre_siglas j.id_persona %}" 
+                    class="trash-icon trash-icon--small">
+                    <i class="bi bi-trash-fill"></i>
+                  </a>
+
+                </div>
+
+                {% endfor %}
+              {% else %}
+                <div class="categoria-item" style="color: #999;">
+                  Sin Jugadoras
+                </div>
+              {% endif %}
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {% endfor %}
+
+    {% else %}
+
+    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #f5f5f5; border-radius: 8px;">
+      <p style="color: #666; margin: 0;">No hay equipos registrados aún.</p>
+      <p style="color: #999; font-size: 14px; margin: 5px 0 0 0;">
+        Comienza registrando miembros del club para crear equipos.
+      </p>
+    </div>
+
+    {% endif %}
+
+  </div>
+
+  <!-- VOLVER -->
+  <div class="text-center">
+    <a href="{% url 'profile_detail' %}" class="back-btn">
+      <i class="bi bi-arrow-left"></i> Volver
+    </a>
+  </div>
+
+</div>
+
+<!-- ESTILOS -->
+<style>
+
+.trash-equipo {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: #dc3545;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trash-equipo:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  transform: scale(1.1);
+}
+
+.trash-icon {
+  color: #dc3545;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+/* 🧠 IMPORTANTE: tamaño del ícono equipo */
+.trash-equipo i {
+  font-size: 18px;
+}
+
+/* 🧠 IMPORTANTE: tamaño del ícono jugadora */
+.trash-icon--small i {
+  font-size: 18px;   /* <- acá estaba el problema */
+}
+</style>
+
+{% endblock %}

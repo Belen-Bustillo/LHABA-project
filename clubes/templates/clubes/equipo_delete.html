@@ -1,0 +1,54 @@
+{% extends 'index.html' %}
+{% block title %} <title>Confirmar eliminación</title> {% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <div class="page-header">
+    <div class="page-title">Eliminar equipo completo</div>
+    <div class="page-subtitle">Esta acción no se puede deshacer, eliminara todos los miembros del equipo</div>
+  </div>
+
+  <div class="card-detail text-center">
+
+    <div style="font-size: 3rem; color: var(--lhaba-red); margin-bottom: 1rem;">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+    </div>
+
+    <h3 style="color: #fff; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase;">
+      ¿Estás seguro?
+    </h3>
+
+    <p style="color: #888; margin-top: 1rem; line-height: 1.6;">
+      Vas a eliminar a <strong style="color:#fff;">{{ persona.nombre }} {{ persona.apellido }}</strong>.
+      <br>
+      Esta acción no se puede deshacer.
+    </p>
+
+    <!-- BOTONES -->
+    <div class="d-flex justify-content-center gap-3 mt-4">
+
+      <!-- CONFIRMAR -->
+      <form method="POST" action="{% url 'eliminar_equipo' club.nombre_siglas categoria.id_categoria %}">
+        {% csrf_token %}
+
+        <button type="submit" class="btn-cta btn-cta-primary">
+          <i class="bi bi-trash-fill"></i>
+          Confirmar eliminación
+        </button>
+      </form>
+
+      <!-- CANCELAR -->
+      <a href="{% url 'administrar_equipos' club.nombre_siglas %}" class="btn-cta btn-cta-outline">
+        <i class="bi bi-x-circle"></i>
+        Cancelar
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

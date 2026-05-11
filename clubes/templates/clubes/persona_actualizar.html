@@ -6,7 +6,7 @@
 
     <!-- HEADER -->
     <div class="page-header">
-      <div class="page-title">Registrar Nuevo Miembro</div>
+      <div class="page-title">Actualizar Miembro</div>
       <div class="page-subtitle">{{ club.nombre_completo }}</div>
     </div>
 
@@ -107,9 +107,9 @@
         <!-- BOTONES -->
         <div class="form-actions" style="display: flex; gap: 10px; justify-content: center;">
           <button type="submit" class="btn btn-danger">
-            <i class="bi bi-check-circle"></i> Registrar Miembro
+            <i class="bi bi-check-circle"></i> Actualizar miembro
           </button>
-          <a href="{% url 'profile_detail' %}" class="btn btn-outline-secondary">
+          <a href="{% url 'administrar_equipos' club.nombre_siglas %}" class="btn btn-outline-secondary">
             <i class="bi bi-x-circle"></i> Cancelar
           </a>
         </div>
@@ -193,7 +193,7 @@
     }
 
     .btn-outline-secondary:hover {
-      background-color: #f5f5f5;
+      background-color: #666565;
     }
   </style>
 

@@ -92,71 +92,80 @@
     <!-- COLUMNA DERECHA -->
     <div class="col-md-6">
 
-      <!-- CLUB -->
-      <div class="card-detail">
+    <!-- CLUB -->
+    <div class="card-detail">
 
-        <div class="section-title-small">
-          Mi Club
+      <div class="section-title-small">
+        Mi Club
+      </div>
+
+      {% if user.club %}
+
+        <div class="detail-row">
+          <div class="detail-label">Nombre</div>
+          <div class="detail-value">{{ user.club.nombre_completo }}</div>
         </div>
 
-        {% if user.club %}
+        <div class="detail-row">
+          <div class="detail-label">Siglas</div>
+          <div class="detail-value">{{ user.club.nombre_siglas }}</div>
+        </div>
 
-          <div class="detail-row">
-            <div class="detail-label">Nombre</div>
-            <div class="detail-value">{{ user.club.nombre_completo }}</div>
-          </div>
+        <div class="detail-row">
+          <div class="detail-label">Localidad</div>
+          <div class="detail-value">{{ user.club.localidad }}</div>
+        </div>
 
-          <div class="detail-row">
-            <div class="detail-label">Siglas</div>
-            <div class="detail-value">{{ user.club.nombre_siglas }}</div>
-          </div>
+        <div class="detail-row">
+          <div class="detail-label">Email</div>
+          <div class="detail-value">{{ user.club.email }}</div>
+        </div>
 
-          <div class="detail-row">
-            <div class="detail-label">Localidad</div>
-            <div class="detail-value">{{ user.club.localidad }}</div>
-          </div>
+        <!-- BOTONES -->
+        <div class="profile-actions">
 
-          <div class="detail-row">
-            <div class="detail-label">Email</div>
-            <div class="detail-value">{{ user.club.email }}</div>
-          </div>
+          <a 
+            href="{% url 'club_actualizar' user.club.nombre_siglas %}" 
+            class="btn-cta btn-cta-outline"
+          >
+            <i class="bi bi-building-fill-gear"></i>
+            Editar datos del club
+          </a>
 
-          <div class="profile-actions">
+          <a 
+            href="{% url 'consulta_eliminar_club' user.club.nombre_siglas %}" 
+            class="btn-cta btn-danger-custom"
+          >
+            <i class="bi bi-trash-fill"></i>
+            Eliminar club
+          </a>
 
-            <a 
-              href="{% url 'club_actualizar' user.club.nombre_siglas %}" 
-              class="btn-cta btn-cta-outline"
-            >
-              <i class="bi bi-building-fill-gear"></i>
-              Editar datos del club
-            </a>
+        </div>
 
-          </div>
+      {% else %}
 
-        {% else %}
+        <div class="empty-club">
 
-          <div class="empty-club">
+          <p>No tenés un club creado.</p>
 
-            <p>No tenés un club creado.</p>
+          <p class="text-muted">
+            Creá tu club para empezar a gestionar equipos.
+          </p>
 
-            <p class="text-muted">
-              Creá tu club para empezar a gestionar equipos.
-            </p>
+        </div>
 
-          </div>
+        <div class="profile-actions">
 
-          <div class="profile-actions">
+          <a href="{% url 'registrar_club' %}" class="btn-cta btn-cta-primary">
+            <i class="bi bi-plus-circle"></i>
+            Crear club
+          </a>
 
-            <a href="{% url 'registrar_club' %}" class="btn-cta btn-cta-primary">
-              <i class="bi bi-plus-circle"></i>
-              Crear club
-            </a>
+        </div>
 
-          </div>
+      {% endif %}
 
-        {% endif %}
-
-      </div>
+    </div>
 
       <!-- EQUIPOS -->
       <div class="card-detail mt-4">
@@ -195,7 +204,7 @@
           </div>
           <div class="profile-actions mt-4">
             <a 
-              href="{% url 'ver_equipos' user.club.nombre_siglas %}" 
+              href="{% url 'administrar_equipos' user.club.nombre_siglas %}" 
               class="btn-cta btn-cta-outline"
             >
               <i class="bi bi-people-fill"></i>
@@ -367,6 +376,19 @@
   color: #fff;
 
   font-weight: 600;
+}
+
+.btn-danger-custom {
+  background-color: var(--lhaba-red);
+  color: #fff;
+  border: 2px solid var(--lhaba-red);
+}
+
+.btn-danger-custom:hover {
+  background-color: var(--lhaba-red-dark);
+  border-color: var(--lhaba-red-dark);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 </style>
