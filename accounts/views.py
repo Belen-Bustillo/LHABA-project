@@ -25,7 +25,7 @@ class Register(CreateView):
     model = Profile
     form_class = ProfileCreateForm
     template_name = "accounts/register.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("profile_detail")
 
     def form_valid(self, form):
         response = super().form_valid(form)  # guarda el usuario

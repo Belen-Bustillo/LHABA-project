@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from clubes.models import *
 from clubes.forms import *
 
@@ -29,42 +30,6 @@ def club_detalle(request,nombre_siglas):
     return render(request, "clubes/club_detail.html", contexto)
 
 #personas-equipos
-def administrar_equipos(request,nombre_siglas):
-    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
-    categorias = Categoria.objects.all()
-    personas = PersonaRol.objects.filter(club=club)
- 
-    equipos = []
- 
-    for categoria in categorias:
-        ver_personas = personas.filter(categoria=categoria)
-        dt = ver_personas.filter(rol__rol="Director Tecnico").first()
-        asistentes = ver_personas.filter(rol__rol="Asistente")
-        jugadoras = ver_personas.filter(rol__rol="Jugadora")
- 
-        if ver_personas.exists():
-            lista_asistentes = []
-            for a in asistentes:
-                lista_asistentes.append(a.persona)
- 
-            lista_jugadoras = []
-            for b in jugadoras:
-                lista_jugadoras.append(b.persona)
- 
-            equipos.append({
-                "categoria": categoria,
-                "dt": dt.persona if dt else None,
-                "asistentes": lista_asistentes,
-                "jugadoras": lista_jugadoras
-            })
- 
-    contexto = {
-        "club": club,
-        "equipos": equipos
-    }
- 
-    return render(request, "clubes/equipo_administrar.html", contexto)
-
 def ver_equipos_list(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categorias = Categoria.objects.all()
@@ -101,8 +66,46 @@ def ver_equipos_list(request,nombre_siglas):
  
     return render(request, "clubes/equipo_detail_list.html", contexto)
 
+@login_required
+def administrar_equipos(request,nombre_siglas):
+    club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+    categorias = Categoria.objects.all()
+    personas = PersonaRol.objects.filter(club=club)
+ 
+    equipos = []
+ 
+    for categoria in categorias:
+        ver_personas = personas.filter(categoria=categoria)
+        dt = ver_personas.filter(rol__rol="Director Tecnico").first()
+        asistentes = ver_personas.filter(rol__rol="Asistente")
+        jugadoras = ver_personas.filter(rol__rol="Jugadora")
+ 
+        if ver_personas.exists():
+            lista_asistentes = []
+            for a in asistentes:
+                lista_asistentes.append(a.persona)
+ 
+            lista_jugadoras = []
+            for b in jugadoras:
+                lista_jugadoras.append(b.persona)
+ 
+            equipos.append({
+                "categoria": categoria,
+                "dt": dt.persona if dt else None,
+                "asistentes": lista_asistentes,
+                "jugadoras": lista_jugadoras
+            })
+ 
+    contexto = {
+        "club": club,
+        "equipos": equipos
+    }
+ 
+    return render(request, "clubes/equipo_administrar.html", contexto)
+
 #CREATE
 #club
+@login_required
 def registrar_club(request):
     if request.method == "POST":
         form = ClubesRegistradosForm(request.POST)
@@ -117,6 +120,7 @@ def registrar_club(request):
     return render(request, "clubes/club_create.html", contexto)
 
 #personas
+@login_required
 def registrar_persona(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
 
@@ -148,6 +152,7 @@ def registrar_persona(request,nombre_siglas):
 
 #UPDATE
 #club
+@login_required
 def actualizar_club(request, nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     if request.method == "POST":
@@ -166,6 +171,7 @@ def actualizar_club(request, nombre_siglas):
     return render(request, "clubes/club_update.html", contexto)
 
 #personas
+@login_required
 def actualizar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     
@@ -195,11 +201,13 @@ def actualizar_persona(request, nombre_siglas, persona_id):
 
 #DELETE
 #club
+@login_required
 def consulta_eliminar_club(request, nombre_siglas):
     return render(request, "clubes/club_delete.html",{
         "nombre_siglas": nombre_siglas
     })
 
+@login_required
 def eliminar_club(request, nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     if request.method == "POST":
@@ -207,6 +215,7 @@ def eliminar_club(request, nombre_siglas):
         return redirect("profile_detail")
 
 #personas-equipos
+@login_required
 def consulta_eliminar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     persona = get_object_or_404(Persona, id_persona=persona_id)
@@ -215,6 +224,7 @@ def consulta_eliminar_persona(request, nombre_siglas, persona_id):
         "persona": persona
     })
 
+@login_required
 def eliminar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     persona = get_object_or_404(Persona, id_persona=persona_id)
@@ -222,7 +232,8 @@ def eliminar_persona(request, nombre_siglas, persona_id):
         persona.delete()
         return redirect("administrar_equipos", nombre_siglas=nombre_siglas)
     return redirect("consulta_eliminar_persona", nombre_siglas=nombre_siglas, persona_id=persona_id)
-    
+
+@login_required
 def consulta_eliminar_equipo(request, nombre_siglas, categoria_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
@@ -231,6 +242,7 @@ def consulta_eliminar_equipo(request, nombre_siglas, categoria_id):
         "categoria": categoria
     })
 
+@login_required
 def eliminar_equipo(request, nombre_siglas, categoria_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
