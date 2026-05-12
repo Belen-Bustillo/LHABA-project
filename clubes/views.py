@@ -30,7 +30,7 @@ def club_detalle(request,nombre_siglas):
     return render(request, "clubes/club_detail.html", contexto)
 
 #personas-equipos
-def ver_equipos_list(request,nombre_siglas):
+def ver_equipos(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categorias = Categoria.objects.all()
     personas = PersonaRol.objects.filter(club=club)
@@ -64,7 +64,7 @@ def ver_equipos_list(request,nombre_siglas):
         "equipos": equipos
     }
  
-    return render(request, "clubes/equipo_detail_list.html", contexto)
+    return render(request, "clubes/equipo_detail.html", contexto)
 
 @login_required
 def administrar_equipos(request,nombre_siglas):
