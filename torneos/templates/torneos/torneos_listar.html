@@ -1,0 +1,188 @@
+{% extends 'index.html' %}
+
+{% block title %}
+<title>Torneos Vigentes - LHABAfem</title>
+{% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl torneos-container">
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">
+      Torneos vigentes
+    </div>
+    <div class="page-subtitle">
+      Consultá los torneos activos de la liga
+    </div>
+  </div>
+  <!-- GRID -->
+  <div class="row g-4">
+    {% for torneo in torneos %}
+      <div class="col-md-6 col-lg-4">
+        <!-- LINK WRAPPER (card clickeable) -->
+        <a href="{% url 'torneo_detail' torneo.torneo_id %}" class="torneo-link">
+          <div class="card-detail torneo-card">
+            <!-- HEADER -->
+            <div class="torneo-header">
+              <div class="torneo-icon">
+                <i class="bi bi-trophy-fill"></i>
+              </div>
+              <div>
+                <div class="torneo-categoria">
+                  {{ torneo.categoria.nombre_categoria }}
+                </div>
+                <div class="torneo-temporada">
+                  {{ torneo.temporada }} {{ torneo.anio }}
+                </div>
+              </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="detail-row">
+              <div class="detail-label">Inicio</div>
+              <div class="detail-value">{{ torneo.fecha_inicio }}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Finalización</div>
+              <div class="detail-value">
+                {{ torneo.fecha_fin }}
+              </div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Estado</div>
+              <div class="detail-value">
+                <span class="status-badge">{{ torneo.estado }}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    {% empty %}
+
+      <div class="col-12">
+        <div class="card-detail empty-card">
+          <i class="bi bi-exclamation-circle"></i>
+          <h4>No hay torneos vigentes</h4>
+          <p>Todavía no se registraron torneos activos.</p>
+        </div>
+      </div>
+
+    {% endfor %}
+
+  </div>
+</div>
+<style>
+
+/* LINK GENERAL */
+.torneo-link {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+/* evita que botones "simulados" rompan UX */
+.torneo-link:hover {
+  text-decoration: none;
+}
+
+/* CARD */
+.torneo-card {
+  height: 100%;
+  transition: all 0.25s ease;
+}
+
+.torneo-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(208,40,42,0.3);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* HEADER */
+.torneo-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.torneo-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(208,40,42,0.25),
+    rgba(208,40,42,0.08)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lhaba-red);
+  font-size: 1.5rem;
+}
+
+.torneo-categoria {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.torneo-temporada {
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+/* BADGES */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  background-color: rgba(255,255,255,0.06);
+  color: #ccc;
+}
+
+.status-active {
+  background-color: rgba(25,135,84,0.18);
+  color: #57d68d;
+  border: 1px solid rgba(25,135,84,0.35);
+}
+
+/* EMPTY */
+.empty-card {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-card i {
+  font-size: 3rem;
+  color: var(--lhaba-red);
+  margin-bottom: 20px;
+}
+
+.empty-card h4 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.empty-card p {
+  color: #999;
+  margin: 0;
+}
+
+/* BOTONES (no clickean la card) */
+.profile-actions span {
+  pointer-events: none;
+}
+
+.torneos-container {
+  padding-bottom: 100px;
+}
+
+</style>
+
+{% endblock %}

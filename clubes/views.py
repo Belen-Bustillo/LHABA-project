@@ -7,7 +7,6 @@ from clubes.forms import *
 def home(request):
     return render(request, "index.html")
 
-
 #READ
 # clubes
 def clubes_list(request):

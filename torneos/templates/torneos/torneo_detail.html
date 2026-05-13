@@ -1,0 +1,159 @@
+{% extends 'index.html' %}
+{% block title %}
+<title>{{ torneo.nombre }} - Detalle Torneo</title>
+{% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">
+      {{ torneo.nombre }}
+    </div>
+      <span class="badge bg-secondary mt-2">{{ torneo.estado }}</span>
+  </div>
+
+  <div class="row g-4">
+    <div class="profile-actions">
+
+    <a href="#" class="btn-cta btn-cta-outline">
+        <i class="bi bi-calendar-event-fill"></i>
+        Ver fixture
+    </a>
+
+    <a href="#" class="btn-cta btn-cta-primary">
+        <i class="bi bi-bar-chart-fill"></i>
+        Tabla
+    </a>
+
+    </div>
+    <!-- INFO TORNEO -->
+    <div class="col-md-5">
+
+      <div class="card-detail">
+
+        <div class="section-title-small">
+          Información del torneo
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Nombre</div>
+          <div class="detail-value">{{ torneo.nombre }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Temporada</div>
+          <div class="detail-value">{{ torneo.temporada }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Categoría</div>
+          <div class="detail-value">
+            {{ torneo.categoria.nombre_categoria }}
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Inicio</div>
+          <div class="detail-value">{{ torneo.fecha_inicio }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Fin</div>
+          <div class="detail-value">{{ torneo.fecha_fin }}</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-label">Estado</div>
+          <div class="detail-value">
+            {{ torneo.estado }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PARTICIPANTES -->
+    <div class="col-md-7">
+
+      <div class="card-detail">
+
+        <div class="section-title-small">
+          Clubes participantes
+        </div>
+
+        {% if participaciones %}
+
+          <div class="team-list">
+
+            {% for p in participaciones %}
+
+              <div class="team-item">
+
+                <div class="team-item-header">
+
+                  <div class="team-name">
+                    {{ p.club.nombre_completo }}
+                  </div>
+
+                  <span class="team-badge">
+                    {{ p.categoria.nombre_categoria }}
+                  </span>
+
+                </div>
+
+                <div class="team-details">
+                  <div class="team-detail">
+                    <span>Puntos:</span> {{ p.puntos }}
+                  </div>
+
+                  <div class="team-detail">
+                    <span>PJ:</span> {{ p.partidos_jugados }}
+                    | <span>PG:</span> {{ p.partidos_ganados }}
+                    | <span>PE:</span> {{ p.partidos_empatados }}
+                    | <span>PP:</span> {{ p.partidos_perdidos }}
+                  </div>
+
+                  <div class="team-detail">
+                    <span>Goles:</span>
+                    {{ p.goles_favor }} - {{ p.goles_contra }}
+                  </div>
+                </div>
+
+              </div>
+
+            {% endfor %}
+
+          </div>
+
+        {% else %}
+
+          <div class="empty-club">
+            <p>No hay clubes inscriptos en este torneo.</p>
+            <p class="text-muted">
+              Todavía no se registraron participaciones.
+            </p>
+          </div>
+
+        {% endif %}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- BOTONES -->
+  <div class="text-center mt-4">
+
+    <a href="{% url 'torneos_listar' %}" class="back-btn">
+      <i class="bi bi-arrow-left"></i> Volver
+    </a>
+
+  </div>
+
+</div>
+
+{% endblock %}

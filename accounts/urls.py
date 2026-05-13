@@ -15,6 +15,9 @@ from clubes.views import (
     consulta_eliminar_equipo,
     eliminar_equipo
 )
+from torneos.views import (
+    registrar_participacion_torneo
+)
 
 urlpatterns = [
     #acciones propias de la cuenta
@@ -40,6 +43,8 @@ urlpatterns = [
     path("perfil_coordinador/<nombre_siglas>/equipos/consulta_eliminar_equipo/<int:categoria_id>/", consulta_eliminar_equipo, name="consulta_eliminar_equipo"),
     path("perfil_coordinador/<nombre_siglas>/equipos/eliminar_equipo/<int:categoria_id>/", eliminar_equipo, name="eliminar_equipo"),
 
+    #acciones para torneos
+    path("perfil_coordinador/<nombre_siglas>/equipos/administrar_equipos/torneo_registrar/", registrar_participacion_torneo, name="torneo_registrar"),    
 ]
 
 urlpatterns += static(
