@@ -147,20 +147,16 @@
           <div class="profile-actions mt-3">
 
             {% if equipo.categoria.id_categoria in participados %}
-
               <span class="btn-cta btn-cta-primary" style="opacity:0.7; cursor: default;">
                 <i class="bi bi-check-circle-fill"></i>
                 Registrado en torneo
               </span>
-
-            {% else %}
-
-              <a href="#" 
-                 class="btn-cta btn-cta-outline">
+            {% elif equipo.categoria %}
+              <a href="{% url 'seleccionar_torneo' club.id equipo.categoria.id_categoria %}" 
+                class="btn-cta btn-cta-outline">
                 <i class="bi bi-trophy-fill"></i>
                 Registrar equipo en torneo
               </a>
-
             {% endif %}
 
           </div>

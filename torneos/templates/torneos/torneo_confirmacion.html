@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% block princ_content %}
+
+<div class="container-xl text-center">
+
+  <div class="card-detail">
+
+    <h3>Equipo registrado correctamente</h3>
+
+    <p>
+      {{ club.nombre_completo }} fue inscripto en {{ torneo.nombre }}
+    </p>
+
+    <a href="{% url 'torneo_detail' torneo.torneo_id %}" class="btn-cta btn-cta-primary">
+      Ver torneo
+    </a>
+
+  </div>
+
+</div>
+
+{% endblock %}

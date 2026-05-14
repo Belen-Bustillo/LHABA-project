@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+
+{% block title %}
+<title>Inscribir equipo - {{ torneo.nombre }}</title>
+{% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">
+      Inscribir equipo en torneo
+    </div>
+
+    <div class="page-subtitle">
+      {{ torneo.nombre }} - {{ torneo.temporada }}
+    </div>
+  </div>
+
+  <!-- CARD -->
+  <div class="card-detail" style="max-width: 650px; margin: 0 auto;">
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- ERROR MESSAGES -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="form-error-box">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- CLUB -->
+      <div class="form-group mb-4">
+        <label class="form-label">Club</label>
+
+        <select name="club" class="form-control" required>
+          <option value="">Seleccionar club</option>
+
+          {% for club in clubes %}
+            <option value="{{ club.id }}">
+              {{ club.nombre_completo }}
+            </option>
+          {% endfor %}
+
+        </select>
+      </div>
+
+      <!-- CATEGORIA -->
+      <div class="form-group mb-4">
+        <label class="form-label">Categoría</label>
+
+        <select name="categoria" class="form-control" required>
+          <option value="">Seleccionar categoría</option>
+
+          {% for categoria in categorias %}
+            <option value="{{ categoria.id_categoria }}">
+              {{ categoria.nombre_categoria }}
+            </option>
+          {% endfor %}
+
+        </select>
+      </div>
+
+      <!-- INFO -->
+      <div class="password-help mb-4">
+        <div class="password-help-title">
+          Información
+        </div>
+
+        <ul>
+          <li>El club quedará inscripto en este torneo.</li>
+          <li>No podés inscribir el mismo club dos veces.</li>
+          <li>La categoría debe coincidir con la del torneo.</li>
+        </ul>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="profile-actions">
+
+        <button type="submit" class="btn-cta btn-cta-primary">
+          <i class="bi bi-trophy-fill"></i>
+          Inscribir equipo
+        </button>
+
+        <a href="{% url 'torneo_detail' torneo.torneo_id %}" class="btn-cta btn-cta-outline">
+          <i class="bi bi-arrow-left"></i>
+          Cancelar
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

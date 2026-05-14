@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from clubes.models import *
 from clubes.forms import *
+from accounts.views import es_coordinador
 
 # Create your views here.
 def home(request):
@@ -70,7 +71,10 @@ def administrar_equipos(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     categorias = Categoria.objects.all()
     personas = PersonaRol.objects.filter(club=club)
- 
+    
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+    
     equipos = []
  
     for categoria in categorias:
@@ -106,6 +110,8 @@ def administrar_equipos(request,nombre_siglas):
 #club
 @login_required
 def registrar_club(request):
+    if hasattr(request.user, "club"):
+        return redirect("profile_detail")
     if request.method == "POST":
         form = ClubesRegistradosForm(request.POST)
         if form.is_valid():
@@ -122,6 +128,9 @@ def registrar_club(request):
 @login_required
 def registrar_persona(request,nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+
+    if not es_coordinador(club, request.user):
+        return redirect('home')
 
     if request.method == "POST":
         persona_form = PersonaForm(request.POST)
@@ -154,6 +163,10 @@ def registrar_persona(request,nombre_siglas):
 @login_required
 def actualizar_club(request, nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+    
     if request.method == "POST":
         form = ClubesRegistradosForm(request.POST, instance=club)
         if form.is_valid():
@@ -174,6 +187,9 @@ def actualizar_club(request, nombre_siglas):
 def actualizar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
     
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+
     persona = get_object_or_404(Persona, id_persona=persona_id)
     persona_rol = get_object_or_404(PersonaRol, persona=persona, club=club)
 
@@ -209,6 +225,10 @@ def consulta_eliminar_club(request, nombre_siglas):
 @login_required
 def eliminar_club(request, nombre_siglas):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+
     if request.method == "POST":
         club.delete()
         return redirect("profile_detail")
@@ -217,6 +237,10 @@ def eliminar_club(request, nombre_siglas):
 @login_required
 def consulta_eliminar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+
     persona = get_object_or_404(Persona, id_persona=persona_id)
     return render(request, "clubes/persona_delete.html",{
         "club": club,
@@ -226,6 +250,10 @@ def consulta_eliminar_persona(request, nombre_siglas, persona_id):
 @login_required
 def eliminar_persona(request, nombre_siglas, persona_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+
     persona = get_object_or_404(Persona, id_persona=persona_id)
     if request.method == "POST":
         persona.delete()
@@ -235,6 +263,10 @@ def eliminar_persona(request, nombre_siglas, persona_id):
 @login_required
 def consulta_eliminar_equipo(request, nombre_siglas, categoria_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+
     categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
     return render(request, "clubes/equipo_delete.html",{
         "club": club,
@@ -244,6 +276,10 @@ def consulta_eliminar_equipo(request, nombre_siglas, categoria_id):
 @login_required
 def eliminar_equipo(request, nombre_siglas, categoria_id):
     club = get_object_or_404(ClubesRegistrados, nombre_siglas=nombre_siglas)
+
+    if not es_coordinador(club, request.user):
+        return redirect('home')
+
     categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
 
     if request.method == "POST":

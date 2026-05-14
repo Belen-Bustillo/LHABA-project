@@ -72,3 +72,8 @@ class Logout(LogoutView):
 class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = "accounts/pass_change.html"
     success_url = reverse_lazy("profile_detail")
+
+def es_coordinador(club, user):
+    if club.coordinador_deportivo == user:
+        return True
+    return

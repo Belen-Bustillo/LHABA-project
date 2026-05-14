@@ -1,0 +1,144 @@
+{% extends 'index.html' %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Torneos disponibles para tu equipo de {{ categoria.nombre_categoria }}</div>
+    <div class="page-subtitle">
+      Hacé click sobre el torneo que deseas inscribir a tu equipo.
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="row g-4">
+
+    {% for torneo in torneos %}
+
+    <div class="col-md-6 col-lg-4">
+
+      <a href="{% url 'registrar_participacion_torneo' torneo.id club.id categoria.id_categoria %}"
+         class="torneo-link">
+
+        <div class="card-detail torneo-card">
+
+          <!-- ICONO COPA -->
+          <div class="torneo-header">
+            <div class="torneo-icon">
+              <i class="bi bi-trophy-fill"></i>
+            </div>
+
+            <div>
+              <div class="torneo-title">
+                {{ torneo.nombre }}
+              </div>
+              <div class="torneo-subtitle">
+                {{ torneo.temporada }}
+              </div>
+            </div>
+          </div>
+
+          <!-- INFO -->
+          <div class="detail-row">
+            <div class="detail-label">Inicio</div>
+            <div class="detail-value">{{ torneo.fecha_inicio }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Fin</div>
+            <div class="detail-value">{{ torneo.fecha_fin }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Estado</div>
+            <div class="detail-value">{{ torneo.estado }}</div>
+          </div>
+
+        </div>
+
+      </a>
+
+    </div>
+
+    {% empty %}
+
+    <div class="col-12 text-center">
+      <p>No hay torneos disponibles para esta categoría.</p>
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+<!-- ESTILOS -->
+<style>
+
+/* LINK SIN SUBRAYADO */
+.torneo-link {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.torneo-link:hover {
+  text-decoration: none !important;
+}
+
+/* CARD */
+.torneo-card {
+  height: 100%;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* HOVER ROJO */
+.torneo-card:hover {
+  transform: translateY(-4px);
+  border: 1px solid rgba(208,40,42,0.8);
+  box-shadow: 0 10px 25px rgba(208,40,42,0.15);
+}
+
+/* HEADER */
+.torneo-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* ICONO COPA */
+.torneo-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(208,40,42,0.25),
+    rgba(208,40,42,0.08)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lhaba-red);
+  font-size: 1.4rem;
+}
+
+/* TEXTO */
+.torneo-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.torneo-subtitle {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+</style>
+
+{% endblock %}
