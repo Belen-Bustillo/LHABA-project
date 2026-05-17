@@ -16,7 +16,7 @@ from clubes.views import (
     eliminar_equipo
 )
 from torneos.views import (
-    registrar_participacion_torneo
+    mis_torneos
 )
 
 urlpatterns = [
@@ -44,7 +44,7 @@ urlpatterns = [
     path("perfil_coordinador/<nombre_siglas>/equipos/eliminar_equipo/<int:categoria_id>/", eliminar_equipo, name="eliminar_equipo"),
 
     #acciones para torneos
-    path("perfil_coordinador/<nombre_siglas>/equipos/administrar_equipos/torneo_registrar/", registrar_participacion_torneo, name="torneo_registrar"),    
+    path("perfil_coordinador/<nombre_siglas>/mis_torneos/",mis_torneos,name="mis_torneos"),
 ]
 
 urlpatterns += static(

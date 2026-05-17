@@ -1,0 +1,163 @@
+{% extends 'index.html' %}
+
+{% block title %}
+<title>Mis Torneos - LHABAfem</title>
+{% endblock %}
+
+{% block princ_content %}
+
+<div class="container-xl">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">Torneos del club</div>
+    <div class="page-subtitle">
+      Gestioná en qué torneos participan tus equipos
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="row g-4">
+
+    {% for cat in categorias %}
+
+      <div class="col-12">
+
+        <!-- CATEGORÍA -->
+        <div class="section-title-small mb-3">
+          {{ cat.nombre_categoria }}
+        </div>
+
+        <div class="row g-3">
+
+          {% for torneo in torneos_disponibles %}
+
+            {% if torneo.categoria.id_categoria == cat.id_categoria %}
+
+              <div class="col-md-6 col-lg-4">
+
+                <a href="#"
+                   class="torneo-card-link">
+
+                  <div class="division-card division-lhaba h-100">
+
+                    <!-- HEADER CARD -->
+                    <div class="division-header">
+
+                      <div class="division-icon lhaba">
+                        <i class="bi bi-trophy-fill"></i>
+                      </div>
+
+                      <div>
+                        <div class="division-name">
+                          {{ torneo.nombre }}
+                        </div>
+
+                        <div class="division-torneo">
+                          {{ torneo.temporada }}
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <!-- INFO -->
+                    <div class="detail-row">
+                      <div class="detail-label">Inicio</div>
+                      <div class="detail-value">
+                        {{ torneo.fecha_inicio }}
+                      </div>
+                    </div>
+
+                    <div class="detail-row">
+                      <div class="detail-label">Fin</div>
+                      <div class="detail-value">
+                        {{ torneo.fecha_fin }}
+                      </div>
+                    </div>
+
+                    <div class="detail-row">
+                      <div class="detail-label">Estado</div>
+                      <div class="detail-value">
+                        <span class="status-badge">
+                          {{ torneo.estado }}
+                        </span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </a>
+
+              </div>
+
+            {% endif %}
+
+          {% empty %}
+
+            <div class="col-12">
+              <div class="empty-club">
+                No hay torneos disponibles para esta categoría.
+              </div>
+            </div>
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+<!-- ESTILOS -->
+<style>
+
+.torneo-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.torneo-card-link:hover {
+  text-decoration: none;
+}
+
+.torneo-card-link .division-card {
+  transition: all 0.25s ease;
+}
+
+.torneo-card-link .division-card:hover {
+  border-color: rgba(208,40,42,0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.section-title-small {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.status-badge {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  background: rgba(255,255,255,0.06);
+  color: #ccc;
+}
+
+.empty-club {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+</style>
+
+{% endblock %}

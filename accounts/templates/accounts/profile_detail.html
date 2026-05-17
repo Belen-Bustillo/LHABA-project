@@ -86,7 +86,135 @@
         </div>
 
       </div>
+      <!-- GESTIÓN DE TORNEOS -->
+      <div class="card-detail mt-4">
 
+        <div class="section-title-small mb-4">
+          Gestión de torneos
+        </div>
+
+        <!-- TORNEOS DISPONIBLES -->
+        <div class="mb-5">
+
+          <div class="detail-label mb-3">
+            Torneos disponibles
+          </div>
+
+          {% if torneos_disponibles %}
+
+            <div class="row g-3">
+
+              {% for torneo in torneos_disponibles %}
+
+              <div class="col-12">
+
+                <a href="{% url 'confirmar_inscripcion' torneo.id user.club.id %}"
+                  class="torneo-card-link">
+
+                  <div class="division-card division-lhaba h-100">
+
+                    <div class="division-header">
+
+                      <div class="division-icon lhaba">
+                        <i class="bi bi-trophy-fill"></i>
+                      </div>
+
+                      <div>
+
+                        <div class="division-name">
+                          {{ torneo.nombre }}
+                        </div>
+
+                        <div class="division-torneo">
+                          {{ torneo.categoria.nombre_categoria }}
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div class="detail-row">
+                      <div class="detail-label">Temporada</div>
+
+                      <div class="detail-value">
+                        {{ torneo.temporada }}
+                      </div>
+                    </div>
+
+                    <div class="detail-row">
+                      <div class="detail-label">Estado</div>
+
+                      <div class="detail-value">
+                        {{ torneo.estado }}
+                      </div>
+                    </div>
+
+                  </div>
+
+                </a>
+
+              </div>
+
+              {% endfor %}
+
+            </div>
+
+          {% else %}
+
+            <div class="categoria-item" style="color:#999;">
+              No hay torneos disponibles.
+            </div>
+
+          {% endif %}
+
+        </div>
+
+        <!-- INSCRIPTOS -->
+        <div>
+
+          <div class="detail-label mb-3">
+            Equipos ya inscriptos
+          </div>
+
+          {% if participaciones %}
+
+            <div class="categoria-list">
+
+              {% for p in participaciones %}
+
+              <div class="categoria-item d-flex justify-content-between align-items-center">
+
+                <div>
+                  <i class="bi bi-check-circle-fill"></i>
+
+                  {{ p.torneo.nombre }}
+                  -
+                  {{ p.categoria.nombre_categoria }}
+                </div>
+
+              </div>
+
+              {% endfor %}
+
+            </div>
+
+          {% else %}
+
+            <div class="categoria-item" style="color:#999;">
+              No hay equipos registrados.
+            </div>
+
+          {% endif %}
+
+        </div>
+        <div class="profile-actions mt-4">
+          <a href="{% url 'mis_torneos' user.club.nombre_siglas %}"
+            class="btn-cta btn-cta-primary">
+            <i class="bi bi-trophy-fill"></i>
+            Administrar torneos
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- COLUMNA DERECHA -->
@@ -168,78 +296,76 @@
     </div>
 
       <!-- EQUIPOS -->
-      <div class="card-detail mt-4">
+    <div class="card-detail mt-4">
 
-        <div class="section-title-small">
-          Mis equipos
-        </div>
+      <div class="section-title-small">
+        Mis equipos
+      </div>
 
-        {% if equipos %}
+      {% if equipos %}
 
-          <div class="team-list">
+        <div class="team-list">
 
-            {% for equipo in equipos %}
+          {% for equipo in equipos %}
 
-              <div class="team-item">
+            <div class="team-item">
 
-                <div class="team-item-header">
+              <div class="team-item-header">
 
-                  <div class="team-name">
-                    {{ equipo.nombre_categoria }}
-                  </div>
-
-                  <span class="team-badge">
-                    Equipo oficial
-                  </span>
-
+                <div class="team-name">
+                  {{ equipo.nombre_categoria }}
                 </div>
-                <div class="team-details">
-                  <div class="team-detail">
-                    <span>Personas:</span>
-                    {{ equipo.personarol_set.count }}
-                  </div>
+
+                <span class="team-badge">
+                  Equipo oficial
+                </span>
+
+              </div>
+              <div class="team-details">
+                <div class="team-detail">
+                  <span>Personas:</span>
+                  {{ equipo.personarol_set.count }}
                 </div>
               </div>
-            {% endfor %}
-          </div>
-          <div class="profile-actions mt-4">
+            </div>
+          {% endfor %}
+        </div>
+        <div class="profile-actions mt-4">
+          <a 
+            href="{% url 'administrar_equipos' user.club.nombre_siglas %}" 
+            class="btn-cta btn-cta-outline"
+          >
+            <i class="bi bi-people-fill"></i>
+            Administrar equipos
+          </a>
+        </div>
+      {% else %}
+        {% if user.club %}
+          <div class="empty-club">
+            <p>No tenés equipos cargados.</p>
+            <p class="text-muted">
+              Registrá jugadoras y categorías para comenzar.
+            </p>
+
+          <div class="profile-actions">
             <a 
-              href="{% url 'administrar_equipos' user.club.nombre_siglas %}" 
+              href="{% url 'registrar_persona' user.club.nombre_siglas %}" 
               class="btn-cta btn-cta-outline"
             >
-              <i class="bi bi-people-fill"></i>
-              Administrar equipos
+              <i class="bi bi-building-fill-gear"></i>
+              Registrar miembros del club
             </a>
+          </div>              
           </div>
         {% else %}
-          {% if user.club %}
-            <div class="empty-club">
-              <p>No tenés equipos cargados.</p>
-              <p class="text-muted">
-                Registrá jugadoras y categorías para comenzar.
-              </p>
-
-            <div class="profile-actions">
-              <a 
-                href="{% url 'registrar_persona' user.club.nombre_siglas %}" 
-                class="btn-cta btn-cta-outline"
-              >
-                <i class="bi bi-building-fill-gear"></i>
-                Registrar miembros del club
-              </a>
-            </div>              
-            </div>
-          {% else %}
-            <div class="empty-club">
-              <p>No tenés un club creado.</p>
-              <p class="text-muted">
-                Creá tu club para empezar a gestionar equipos.
-              </p>
-          </div>
-          {% endif %}
+          <div class="empty-club">
+            <p>No tenés un club creado.</p>
+            <p class="text-muted">
+              Creá tu club para empezar a gestionar equipos.
+            </p>
+        </div>
         {% endif %}
-
-      </div>
+      {% endif %}
 
     </div>
 
@@ -389,6 +515,26 @@
   border-color: var(--lhaba-red-dark);
   color: #fff;
   transform: translateY(-2px);
+}
+
+.torneo-card-link{
+  text-decoration:none;
+  color:inherit;
+  display:block;
+}
+
+.torneo-card-link:hover{
+  text-decoration:none;
+}
+
+.torneo-card-link .division-card{
+  transition: all .25s ease;
+}
+
+.torneo-card-link .division-card:hover{
+  border-color: rgba(208,40,42,.45);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.25);
 }
 
 </style>

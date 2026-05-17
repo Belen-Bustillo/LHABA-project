@@ -5,6 +5,7 @@ from torneos.models import *
 from clubes.models import ClubesRegistrados, Categoria
 from datetime import date
 from accounts.views import es_coordinador
+from clubes.models import PersonaRol
 
 #READ
 def torneos_listar(request):
@@ -124,3 +125,46 @@ def torneo_confirmacion(request, torneo_id, club_id):
         "torneo": torneo,
         "club": club
     })
+
+@login_required
+def mis_torneos(request, nombre_siglas):
+
+    club = get_object_or_404(
+        ClubesRegistrados,
+        nombre_siglas=nombre_siglas
+    )
+
+    if not es_coordinador(club, request.user):
+        return redirect("home")
+
+    club = request.user.club
+
+    participaciones = ParticipacionTorneo.objects.filter(
+        club=club
+    ).select_related("torneo", "categoria")
+
+    categorias_club = PersonaRol.objects.filter(
+        club=club
+    ).values_list("categoria", flat=True).distinct()
+
+    torneos_disponibles = Torneo.objects.filter(
+        categoria__in=categorias_club
+    ).exclude(
+        participaciontorneo__club=club
+    ).select_related("categoria")
+
+    categorias = Categoria.objects.filter(
+        id_categoria__in=categorias_club
+    )
+
+    contexto = {
+        "club": club,
+        "participaciones": participaciones,
+        "torneos_disponibles": torneos_disponibles,
+        "categorias": categorias
+    }
+    return render(
+        request,
+        "torneos/torneos_administrar.html",
+        contexto
+    )
