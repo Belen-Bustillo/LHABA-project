@@ -129,42 +129,95 @@ def torneo_confirmacion(request, torneo_id, club_id):
 @login_required
 def mis_torneos(request, nombre_siglas):
 
-    club = get_object_or_404(
-        ClubesRegistrados,
-        nombre_siglas=nombre_siglas
-    )
+    # club = get_object_or_404(
+    #     ClubesRegistrados,
+    #     nombre_siglas=nombre_siglas
+    # )
+    club = request.user.club
 
     if not es_coordinador(club, request.user):
         return redirect("home")
-
-    club = request.user.club
 
     participaciones = ParticipacionTorneo.objects.filter(
         club=club
     ).select_related("torneo", "categoria")
 
-    categorias_club = PersonaRol.objects.filter(
+    categorias_ids = PersonaRol.objects.filter(
         club=club
-    ).values_list("categoria", flat=True).distinct()
-
-    torneos_disponibles = Torneo.objects.filter(
-        categoria__in=categorias_club
-    ).exclude(
-        participaciontorneo__club=club
-    ).select_related("categoria")
+    ).values_list(
+        "categoria",
+        flat=True
+    ).distinct()
 
     categorias = Categoria.objects.filter(
-        id_categoria__in=categorias_club
+        id_categoria__in=categorias_ids
     )
+
+    torneos_disponibles = Torneo.objects.filter(
+        categoria__id_categoria__in=categorias_ids
+    )
+
+    categorias = Categoria.objects.filter(
+        id_categoria__in=categorias_ids
+    )
+    
+    participaciones_ids = ParticipacionTorneo.objects.filter(
+        club=club
+    ).values_list(
+        "torneo_id",
+        flat=True
+    )    
 
     contexto = {
         "club": club,
         "participaciones": participaciones,
         "torneos_disponibles": torneos_disponibles,
-        "categorias": categorias
+        "participaciones_ids": participaciones_ids,
+        "categorias": categorias,
+        "hoy": date.today()
     }
     return render(
         request,
         "torneos/torneos_administrar.html",
         contexto
     )
+
+@login_required
+def confirmar_inscripcion(request, torneo_id, club_id, categoria_id):
+    torneo = get_object_or_404(Torneo, id=torneo_id)
+    club = get_object_or_404(ClubesRegistrados, id=club_id)
+    categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
+
+    return render(request, "torneos/torneo_confirmacion.html", {
+        "torneo": torneo,
+        "club": club,
+        "categoria": categoria
+    })
+
+@login_required
+def inscribir_en_torneo(request, torneo_id, club_id, categoria_id):
+
+    torneo = get_object_or_404(Torneo, torneo_id=torneo_id)
+    club = get_object_or_404(ClubesRegistrados, id=club_id)
+    categoria = get_object_or_404(Categoria, id_categoria=categoria_id)
+
+    if request.method != "POST":
+        return redirect("confirmar_inscripcion", torneo_id=torneo_id, club_id=club_id, categoria_id=categoria_id)
+
+    # evitar duplicados
+    existe = ParticipacionTorneo.objects.filter(
+        torneo=torneo,
+        club=club,
+        categoria=categoria
+    ).exists()
+
+    if existe:
+        return redirect("mis_torneos", nombre_siglas=club.nombre_siglas)
+
+    ParticipacionTorneo.objects.create(
+        torneo=torneo,
+        club=club,
+        categoria=categoria
+    )
+
+    return redirect("torneo_confirmacion", torneo_id=torneo_id, club_id=club_id)

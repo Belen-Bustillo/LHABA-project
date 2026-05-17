@@ -6,11 +6,14 @@
 
 {% block princ_content %}
 
-<div class="container-xl">
+<div class="container-xl mis-torneos-container">
 
   <!-- HEADER -->
   <div class="page-header">
-    <div class="page-title">Torneos del club</div>
+    <div class="page-title">
+      Gestión de torneos
+    </div>
+
     <div class="page-subtitle">
       Gestioná en qué torneos participan tus equipos
     </div>
@@ -23,7 +26,7 @@
 
       <div class="col-12">
 
-        <!-- CATEGORÍA -->
+        <!-- TITULO CATEGORIA -->
         <div class="section-title-small mb-3">
           {{ cat.nombre_categoria }}
         </div>
@@ -36,12 +39,16 @@
 
               <div class="col-md-6 col-lg-4">
 
-                <a href="#"
-                   class="torneo-card-link">
+                {% if torneo.id in participaciones_ids %}
 
-                  <div class="division-card division-lhaba h-100">
+                  <!-- YA INSCRIPTO -->
+                  <div class="division-card division-lhaba h-100 torneo-inscripto">
 
-                    <!-- HEADER CARD -->
+                    <div class="inscripto-badge">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Equipo inscripto
+                    </div>
+
                     <div class="division-header">
 
                       <div class="division-icon lhaba">
@@ -49,6 +56,7 @@
                       </div>
 
                       <div>
+
                         <div class="division-name">
                           {{ torneo.nombre }}
                         </div>
@@ -56,13 +64,14 @@
                         <div class="division-torneo">
                           {{ torneo.temporada }}
                         </div>
+
                       </div>
 
                     </div>
 
-                    <!-- INFO -->
                     <div class="detail-row">
                       <div class="detail-label">Inicio</div>
+
                       <div class="detail-value">
                         {{ torneo.fecha_inicio }}
                       </div>
@@ -70,6 +79,7 @@
 
                     <div class="detail-row">
                       <div class="detail-label">Fin</div>
+
                       <div class="detail-value">
                         {{ torneo.fecha_fin }}
                       </div>
@@ -77,28 +87,140 @@
 
                     <div class="detail-row">
                       <div class="detail-label">Estado</div>
+
                       <div class="detail-value">
-                        <span class="status-badge">
-                          {{ torneo.estado }}
-                        </span>
+                        {{ torneo.estado }}
                       </div>
                     </div>
 
                   </div>
 
-                </a>
+                {% else %}
+
+                  {% if torneo.fecha_inicio > hoy %}
+
+                    <!-- DISPONIBLE -->
+                    <a href="{% url 'confirmar_inscripcion' torneo.id user.club.id torneo.categoria.id_categoria %}"
+                      class="torneo-card-link">
+
+                      <div class="division-card division-lhaba h-100 torneo-disponible">
+
+                        <div class="disponible-badge">
+                          <i class="bi bi-plus-circle-fill"></i>
+                          Inscripción disponible
+                        </div>
+
+                        <div class="division-header">
+
+                          <div class="division-icon lhaba">
+                            <i class="bi bi-trophy-fill"></i>
+                          </div>
+
+                          <div>
+
+                            <div class="division-name">
+                              {{ torneo.nombre }}
+                            </div>
+
+                            <div class="division-torneo">
+                              {{ torneo.temporada }}
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <div class="detail-row">
+                          <div class="detail-label">Inicio</div>
+
+                          <div class="detail-value">
+                            {{ torneo.fecha_inicio }}
+                          </div>
+                        </div>
+
+                        <div class="detail-row">
+                          <div class="detail-label">Fin</div>
+
+                          <div class="detail-value">
+                            {{ torneo.fecha_fin }}
+                          </div>
+                        </div>
+
+                        <div class="detail-row">
+                          <div class="detail-label">Estado</div>
+
+                          <div class="detail-value">
+                            {{ torneo.estado }}
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </a>
+
+                  {% else %}
+
+                    <!-- NO DISPONIBLE -->
+                    <div class="division-card division-lhaba h-100 torneo-no-disponible">
+
+                      <div class="no-disponible-badge">
+                        <i class="bi bi-lock-fill"></i>
+                        No inscripto - Iniciado
+                      </div>
+
+                      <div class="division-header">
+
+                        <div class="division-icon lhaba">
+                          <i class="bi bi-trophy-fill"></i>
+                        </div>
+
+                        <div>
+
+                          <div class="division-name">
+                            {{ torneo.nombre }}
+                          </div>
+
+                          <div class="division-torneo">
+                            {{ torneo.temporada }}
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="detail-row">
+                        <div class="detail-label">Inicio</div>
+
+                        <div class="detail-value">
+                          {{ torneo.fecha_inicio }}
+                        </div>
+                      </div>
+
+                      <div class="detail-row">
+                        <div class="detail-label">Fin</div>
+
+                        <div class="detail-value">
+                          {{ torneo.fecha_fin }}
+                        </div>
+                      </div>
+
+                      <div class="detail-row">
+                        <div class="detail-label">Estado</div>
+
+                        <div class="detail-value">
+                          {{ torneo.estado }}
+                        </div>
+                      </div>
+
+                    </div>
+
+                  {% endif %}
+
+                {% endif %}
 
               </div>
 
             {% endif %}
-
-          {% empty %}
-
-            <div class="col-12">
-              <div class="empty-club">
-                No hay torneos disponibles para esta categoría.
-              </div>
-            </div>
 
           {% endfor %}
 
@@ -110,10 +232,24 @@
 
   </div>
 
+  <!-- VOLVER -->
+  <div class="text-center mt-5">
+    <a href="{% url 'profile_detail' %}" class="back-btn">
+      <i class="bi bi-arrow-left"></i>
+      Volver al perfil
+    </a>
+  </div>
+
 </div>
 
 <!-- ESTILOS -->
 <style>
+
+.mis-torneos-container {
+  padding-bottom: 40px;
+}
+
+/* LINKS */
 
 .torneo-card-link {
   text-decoration: none;
@@ -125,6 +261,18 @@
   text-decoration: none;
 }
 
+/* TITULOS */
+
+.section-title-small {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* HOVER GENERAL */
+
 .torneo-card-link .division-card {
   transition: all 0.25s ease;
 }
@@ -135,12 +283,109 @@
   box-shadow: 0 10px 25px rgba(0,0,0,0.25);
 }
 
-.section-title-small {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  color: #fff;
+/* INSCRIPTO */
+
+.torneo-inscripto {
+  position: relative;
+
+  border-color: rgba(25,135,84,0.35);
+
+  padding-top: 50px;
+}
+
+.inscripto-badge {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  z-index: 2;
+
+  background-color: rgba(25,135,84,0.18);
+
+  border: 1px solid rgba(25,135,84,0.35);
+
+  color: #57d68d;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  font-size: 0.75rem;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* DISPONIBLE */
+
+.torneo-disponible {
+  position: relative;
+
+  padding-top: 50px;
+}
+
+.disponible-badge {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  z-index: 2;
+
+  background-color: rgba(13,110,253,0.16);
+
+  border: 1px solid rgba(13,110,253,0.35);
+
+  color: #7cb8ff;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  font-size: 0.75rem;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* NO DISPONIBLE */
+
+.torneo-no-disponible {
+  position: relative;
+
+  padding-top: 50px;
+
+  opacity: 0.75;
+
+  border-color: rgba(220,53,69,0.25);
+}
+
+.no-disponible-badge {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  z-index: 2;
+
+  background-color: rgba(220,53,69,0.14);
+
+  border: 1px solid rgba(220,53,69,0.35);
+
+  color: #ff8b95;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  font-size: 0.75rem;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .status-badge {

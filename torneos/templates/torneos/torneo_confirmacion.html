@@ -1,23 +1,84 @@
 {% extends 'index.html' %}
 
+{% block title %}
+<title>Confirmar inscripción</title>
+{% endblock %}
+
 {% block princ_content %}
 
-<div class="container-xl text-center">
+<div class="container-xl">
 
-  <div class="card-detail">
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">
+      Confirmar inscripción
+    </div>
 
-    <h3>Equipo registrado correctamente</h3>
+    <div class="page-subtitle">
+      Verificá los datos antes de continuar
+    </div>
+  </div>
 
-    <p>
-      {{ club.nombre_completo }} fue inscripto en {{ torneo.nombre }}
-    </p>
+  <!-- CARD CONFIRMACIÓN -->
+  <div class="row justify-content-center">
 
-    <a href="{% url 'torneo_detail' torneo.torneo_id %}" class="btn-cta btn-cta-primary">
-      Ver torneo
-    </a>
+    <div class="col-md-8">
+
+    <div class="card-detail text-center">
+
+      <h3>Confirmar inscripción</h3>
+
+      <p>
+        ¿Deseas inscribir a
+        <strong>{{ club.nombre_completo }}</strong>
+        en el torneo
+        <strong>{{ torneo.nombre }}</strong>?
+      </p>
+
+      <form method="POST" action="{% url 'inscribir_en_torneo' torneo.torneo_id club.id categoria.id_categoria %}">
+        {% csrf_token %}
+
+        <button type="submit" class="btn-cta btn-cta-primary">
+          Confirmar inscripción
+        </button>
+
+        <a href="{% url 'mis_torneos' club.nombre_siglas %}" class="btn-cta btn-cta-outline">
+          Cancelar
+        </a>
+
+      </form>
+
+    </div>
+
+    </div>
 
   </div>
 
 </div>
+
+<style>
+
+.card-detail {
+  padding: 30px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding-bottom: 8px;
+}
+
+.detail-label {
+  color: #aaa;
+}
+
+.detail-value {
+  color: #fff;
+  font-weight: 600;
+}
+
+</style>
 
 {% endblock %}
